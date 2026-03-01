@@ -789,70 +789,21 @@
   </div>
 
   <script>
-    const CITY = "Dartmouth, NS";
-    const SITE = "restaurants-dartmouth.com";
+    // ✅ CHANGE THESE 3 FOR EACH DOMAIN/CITY
+    const CITY = "Barrie, ON";
+    const SITE = "restaurants-barrie.ca";
+    const API_URL = "https://restaurants-barrie-api.jesslb087.workers.dev/api/restaurants";
 
-    const restaurants = [
-      {
-        id: "harbour-bistro",
-        name: "Harbour Bistro",
-        category: "Seafood",
-        neighborhood: "Downtown Dartmouth",
-        rating: 4.7,
-        reviews: 812,
-        price: "$$",
-        tags: ["Patio", "Local", "Seafood"],
-        phone: "+1-902-555-0111",
-        website: "https://example.com",
-        delivery: {ubereats:"", doordash:""},
-        featured: true,
-        spotlight: true
-      },
-      {
-        id: "sakura-sushi",
-        name: "Sakura Sushi House",
-        category: "Sushi",
-        neighborhood: "Portland St",
-        rating: 4.6,
-        reviews: 540,
-        price: "$$",
-        tags: ["Sushi", "Takeout", "Fresh"],
-        phone: "+1-902-555-0122",
-        website: "https://example.com",
-        delivery: {ubereats:"", doordash:""},
-        featured: true,
-        spotlight: false
-      },
-      {
-        id: "north-end-brunch",
-        name: "North End Brunch Co.",
-        category: "Breakfast",
-        neighborhood: "North End",
-        rating: 4.5,
-        reviews: 670,
-        price: "$$",
-        tags: ["Brunch", "Coffee", "Weekend"],
-        phone: "+1-902-555-0133",
-        website: "https://example.com",
-        delivery: {ubereats:"", doordash:""},
-        featured: true,
-        spotlight: false
-      },
-      { id:"trattoria-vento", name:"Trattoria Vento", category:"Italian", neighborhood:"Alderney", rating:4.4, reviews:388, price:"$$", tags:["Pasta","Date night"], phone:"+1-902-555-0144", website:"https://example.com", delivery:{ubereats:"", doordash:""}, featured:false, spotlight:false },
-      { id:"burger-yard", name:"Burger Yard", category:"Burgers", neighborhood:"Wyse Rd", rating:4.3, reviews:415, price:"$", tags:["Smash burgers","Fries"], phone:"+1-902-555-0155", website:"https://example.com", delivery:{ubereats:"", doordash:""}, featured:false, spotlight:false },
-      { id:"green-fork", name:"Green Fork Kitchen", category:"Vegan", neighborhood:"Downtown Dartmouth", rating:4.5, reviews:260, price:"$$", tags:["Vegan","Gluten-free"], phone:"+1-902-555-0166", website:"https://example.com", delivery:{ubereats:"", doordash:""}, featured:false, spotlight:false },
-      { id:"dockside-coffee", name:"Dockside Coffee Bar", category:"Coffee", neighborhood:"Waterfront", rating:4.6, reviews:190, price:"$", tags:["Coffee","Pastries"], phone:"+1-902-555-0177", website:"https://example.com", delivery:{ubereats:"", doordash:""}, featured:false, spotlight:false },
-      { id:"ocean-plate", name:"Ocean Plate", category:"Seafood", neighborhood:"Portland Hills", rating:4.2, reviews:305, price:"$$$", tags:["Seafood","Fine dining"], phone:"+1-902-555-0188", website:"https://example.com", delivery:{ubereats:"", doordash:""}, featured:false, spotlight:false },
-      { id:"morning-stack", name:"Morning Stack", category:"Breakfast", neighborhood:"Cole Harbour", rating:4.1, reviews:220, price:"$", tags:["Breakfast","Family", "Takeout"], phone:"+1-902-555-0199", website:"https://example.com", delivery:{ubereats:"", doordash:""}, featured:false, spotlight:false }
-    ];
+    let restaurants = [];
 
     const $ = (id) => document.getElementById(id);
     const esc = (s="") => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
     function stars(rating){
-      const full = Math.floor(rating);
-      const half = (rating - full) >= 0.5 ? 1 : 0;
-      const empty = 5 - full - half;
+      const r = Number(rating || 0);
+      const full = Math.floor(r);
+      const half = (r - full) >= 0.5 ? 1 : 0;
+      const empty = Math.max(0, 5 - full - half);
       return "★".repeat(full) + (half ? "½" : "") + "☆".repeat(empty);
     }
 
@@ -872,6 +823,44 @@
           btn.classList.add("active");
         }
         applyFilter();
+      });
+    }
+
+    // ✅ Load from API (Worker -> KV)
+    async function loadRestaurants(){
+      const res = await fetch(API_URL, { cache: "no-store" });
+      if (!res.ok) throw new Error("API request failed: " + res.status);
+
+      const data = await res.json();
+      const list = Array.isArray(data.restaurants) ? data.restaurants : [];
+
+      // Update kicker line with live timestamp (optional)
+      const kicker = document.querySelector(".kicker");
+      if (kicker) {
+        const when = data.generatedAt ? new Date(data.generatedAt).toLocaleString() : "just now";
+        kicker.innerHTML = `<span class="dot"></span> ${esc(CITY)} • updated ${esc(when)}`;
+      }
+
+      // Map API fields -> your template fields
+      restaurants = list.map((r) => {
+        const name = r.name || "Unnamed";
+        const neighborhood = (r.formattedAddress || "").split(",")[0] || CITY;
+
+        return {
+          id: r.id || name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g,""),
+          name,
+          category: r.category || "Restaurant",
+          neighborhood,
+          rating: Number(r.rating || 0),
+          reviews: Number(r.reviews || 0),
+          price: r.price || "",
+          tags: Array.isArray(r.tags) ? r.tags : [],
+          phone: r.nationalPhoneNumber || "",
+          website: r.websiteUri || "",
+          delivery: r.delivery || { ubereats:"", doordash:"" },
+          featured: Boolean(r.featured),
+          spotlight: Boolean(r.spotlight),
+        };
       });
     }
 
@@ -898,7 +887,7 @@
             </div>
             <div class="row">
               <div class="meta">${esc(r.category)} • ${esc(r.neighborhood)}</div>
-              <div class="stars">${stars(r.rating)} <small>${r.rating.toFixed(1)} (${r.reviews})</small></div>
+              <div class="stars">${stars(r.rating)} <small>${Number(r.rating||0).toFixed(1)} (${r.reviews||0})</small></div>
             </div>
             <div class="tags">
               ${(r.tags||[]).slice(0,6).map(t=>`<span class="tag">${esc(t)}</span>`).join("")}
@@ -924,7 +913,7 @@
           const sb = (b.spotlight?2:0) + (b.featured?1:0);
           if (sb !== sa) return sb - sa;
           if (b.rating !== a.rating) return b.rating - a.rating;
-          return b.reviews - a.reviews;
+          return (b.reviews||0) - (a.reviews||0);
         })
         .slice(0,10);
 
@@ -943,7 +932,7 @@
         const matchC = (cat === "all") || (r.category === cat);
 
         // Chip matching: price + tags
-        const tagsLower = new Set((r.tags||[]).map(t => t.toLowerCase()));
+        const tagsLower = new Set((r.tags||[]).map(t => String(t).toLowerCase()));
         const matchChips = (() => {
           if (activeChips.size === 0) return true;
           for (const c of activeChips) {
@@ -963,7 +952,7 @@
         const fb = (b.spotlight?2:0) + (b.featured?1:0);
         if (fb !== fa) return fb - fa;
         if (b.rating !== a.rating) return b.rating - a.rating;
-        return b.reviews - a.reviews;
+        return (b.reviews||0) - (a.reviews||0);
       });
 
       if (filtered.length === 0) {
@@ -1015,7 +1004,7 @@
     $("jumpDirectory").addEventListener("click", ()=> document.getElementById("directory").scrollIntoView({behavior:"smooth"}) );
     $("applyFilter").addEventListener("click", applyFilter);
 
-    // Faster filtering (less jank than setTimeout)
+    // Faster filtering
     let raf = null;
     $("q").addEventListener("input", ()=>{
       if (raf) cancelAnimationFrame(raf);
@@ -1062,11 +1051,11 @@ Requested actions:
 
     $("copyEmailTemplate").addEventListener("click", async ()=>{
       const template =
-`Subject: Dartmouth — want priority placement?
+`Subject: ${CITY} — want priority placement?
 
 Hi {{FirstName}},
 
-We’re launching restaurants-dartmouth.com — a new Dartmouth dining directory highlighting top spots by category.
+We’re launching ${SITE} — a new local dining directory highlighting top spots by category.
 
 Would you like priority placement for {{RestaurantName}} (Featured badge + top-of-category rotation + delivery links)?
 
@@ -1075,7 +1064,7 @@ Plans are $49–$149/mo (cancel anytime). We also have a $199 homepage spotlight
 Want me to send a 30-second preview?
 
 — Jessica
-restaurants-dartmouth.com`;
+${SITE}`;
 
       try{
         await navigator.clipboard.writeText(template);
@@ -1092,7 +1081,7 @@ restaurants-dartmouth.com`;
       const itemList = {
         "@context":"https://schema.org",
         "@type":"ItemList",
-        "name":"Top 10 Restaurants in Dartmouth, NS",
+        "name":`Top 10 Restaurants in ${CITY}`,
         "itemListOrder":"https://schema.org/ItemListOrderDescending",
         "numberOfItems": top10.length,
         "itemListElement": top10.map((r, idx)=>({
@@ -1105,7 +1094,7 @@ restaurants-dartmouth.com`;
       const website = {
         "@context":"https://schema.org",
         "@type":"WebSite",
-        "name":"Restaurants Dartmouth",
+        "name":"Restaurants Directory",
         "url":"https://" + SITE + "/",
         "potentialAction":{
           "@type":"SearchAction",
@@ -1141,7 +1130,23 @@ restaurants-dartmouth.com`;
       });
     }
 
-    render();
+    // ✅ Boot sequence: load API then render template
+    (async function init(){
+      try{
+        await loadRestaurants();
+        render();
+      }catch(e){
+        console.error(e);
+        $("countTotal").textContent = "0";
+        $("top10Grid").innerHTML = `
+          <div class="box" style="grid-column:1/-1;">
+            <h3 style="margin:0 0 6px;">Couldn’t load restaurants</h3>
+            <p style="margin:0;color:var(--muted);">Open DevTools → Console. Check API_URL and that /api/restaurants returns JSON.</p>
+          </div>
+        `;
+        $("dirGrid").innerHTML = $("top10Grid").innerHTML;
+      }
+    })();
   </script>
 </body>
 </html>
