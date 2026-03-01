@@ -800,6 +800,7 @@
     }
 
     // ✅ Load from API (Worker -> KV)
+    // UPDATED: supports raw array response + builds tags + smarter neighborhood
     async function loadRestaurants(){
       const url = API_URL + (API_URL.includes("?") ? "&" : "?") + "v=" + Date.now();
       const res = await fetch(url, { cache: "no-store" });
@@ -807,40 +808,63 @@
 
       const data = await res.json();
 
-      // ✅ Supports either { restaurants: [...] } OR [...] responses
-      const list = Array.isArray(data)
-        ? data
-        : (Array.isArray(data.restaurants) ? data.restaurants : []);
+      // ✅ Your API returns: [ ... ] (but we also support { restaurants: [...] } just in case)
+      const list = Array.isArray(data) ? data : (Array.isArray(data.restaurants) ? data.restaurants : []);
 
-      // Update kicker line with live timestamp (optional)
+      // Kicker update (safe)
       const kicker = document.querySelector(".kicker");
       if (kicker) {
-        const when = data && data.generatedAt ? new Date(data.generatedAt).toLocaleString() : "just now";
+        // Your array response won't have generatedAt, so fallback to "just now"
+        const when = (data && data.generatedAt) ? new Date(data.generatedAt).toLocaleString() : "just now";
         kicker.innerHTML = `<span class="dot"></span> ${esc(CITY)} • updated ${esc(when)}`;
       }
 
+      // Neighborhood helper
+      const getArea = (formattedAddress = "") => {
+        const parts = String(formattedAddress).split(",").map(s => s.trim()).filter(Boolean);
+        // parts[0] is usually street line
+        return parts[0] || "Barrie";
+      };
+
+      // Tag builder helper (adds more realistic tags without needing API changes)
+      const buildTags = (r) => {
+        const tags = [];
+        const name = String(r?.name || "").toLowerCase();
+        const addr = String(r?.formattedAddress || "").toLowerCase();
+        const cat  = String(r?.category || "Restaurant");
+
+        tags.push(cat);
+
+        if (name.includes("brew") || name.includes("craft") || name.includes("monkey")) tags.push("Craft beer");
+        if (name.includes("bar") || name.includes("pub")) tags.push("Bar");
+        if (name.includes("keg") || name.includes("steak")) tags.push("Steakhouse");
+        if (name.includes("mandarin") || name.includes("chinese")) tags.push("Chinese");
+        if (name.includes("indian") || name.includes("amaya")) tags.push("Indian");
+        if (name.includes("golf") || addr.includes("golf")) tags.push("Golf club");
+        if (name.includes("jack astor")) tags.push("Casual dining");
+
+        if (addr.includes("thornton")) tags.push("Near Barrie");
+
+        return [...new Set(tags)].slice(0, 6);
+      };
+
       // Map API fields -> your template fields (safe defaults)
       restaurants = list.map((r) => {
-        const name = (r && r.name) ? r.name : "Unnamed";
-        const addr = (r && r.formattedAddress) ? String(r.formattedAddress) : "";
-        const neighborhood = (addr.split(",")[0] || "").trim() || "Barrie";
-
-        const tags = Array.isArray(r?.tags) ? r.tags : [];
-        const category = r?.category || "Restaurant";
-        const mergedTags = tags.length ? tags : [category];
+        const name = r?.name || "Unnamed";
+        const neighborhood = getArea(r?.formattedAddress);
 
         return {
           id: r?.id || name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g,""),
           name,
-          category,
+          category: r?.category || "Restaurant",
           neighborhood,
           rating: Number(r?.rating || 0),
           reviews: Number(r?.reviews || 0),
-          price: r?.price || "", // if your API later adds it
-          tags: mergedTags,
-          phone: r?.nationalPhoneNumber || r?.phoneNumber || "",
-          website: r?.websiteUri || r?.website || "",
-          delivery: r?.delivery || { ubereats:"", doordash:"" },
+          price: "", // not in API yet
+          tags: buildTags(r),
+          phone: r?.nationalPhoneNumber || "",
+          website: r?.websiteUri || "",
+          delivery: { ubereats:"", doordash:"" }, // not in API yet
           featured: Boolean(r?.featured),
           spotlight: Boolean(r?.spotlight),
         };
