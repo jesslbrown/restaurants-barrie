@@ -22,33 +22,22 @@
       --bg: #ffffff;
       --bg2:#f7f7ff;
       --text:#0b1020;
-
-      /* Stronger muted (better contrast) */
       --muted:#4b5563;
       --muted2:#6b7280;
-
       --card:#ffffff;
       --border: rgba(20, 25, 40, .10);
       --shadow: 0 14px 40px rgba(10, 12, 20, .10);
-
-      --gradA:#7c3aed; /* purple */
-      --gradB:#06b6d4; /* cyan */
-      --gradC:#22c55e; /* green */
-
+      --gradA:#7c3aed;
+      --gradB:#06b6d4;
+      --gradC:#22c55e;
       --chip:#f2f4ff;
-
       --radius: 22px;
       --radius2: 16px;
-
       --max: 1140px;
-
-      /* Spacing scale */
       --s1: 8px;
       --s2: 12px;
       --s3: 16px;
       --s4: 24px;
-
-      /* Type scale */
       --h1: clamp(28px, 3.1vw, 44px);
       --h2: 20px;
       --body: 15px;
@@ -70,7 +59,6 @@
     }
     a{color:inherit}
 
-    /* Typography scale */
     h1{ font-size: var(--h1); }
     .sectionTitle h2{ font-size: var(--h2); }
     .sub{ font-size: var(--body); }
@@ -79,7 +67,6 @@
     .wrap{max-width:var(--max); margin:0 auto; padding:22px 18px}
     @media(min-width:768px){ .wrap{padding:26px 22px} }
 
-    /* Topbar */
     .topbar{
       position:sticky; top:0; z-index:80;
       background: rgba(255,255,255,.70);
@@ -139,12 +126,10 @@
     }
     .cta:hover{transform: translateY(-1px); filter: brightness(1.03)}
 
-    /* Mobile: keep CTA, hide extra pills */
     @media (max-width: 520px){
       .nav .pill{ display:none; }
     }
 
-    /* Hero */
     .hero{
       display:grid;
       grid-template-columns: 1.25fr .75fr;
@@ -278,7 +263,6 @@
       font-weight:700;
     }
 
-    /* Quick filter chips */
     .chips{
       display:flex;
       gap:8px;
@@ -301,7 +285,6 @@
       box-shadow: 0 0 0 4px rgba(124,58,237,.12);
     }
 
-    /* Stats */
     .sideStats{
       display:grid; gap:12px;
       grid-template-columns:1fr;
@@ -325,7 +308,6 @@
     .stat b{font-size:22px; letter-spacing:-.4px}
     .stat div{color:var(--muted); font-size:13px; margin-top:6px; font-weight:700}
 
-    /* Sections */
     .sectionTitle{
       display:flex; align-items:flex-end; justify-content:space-between;
       gap:12px; margin: 22px 0 10px;
@@ -341,7 +323,6 @@
     @media (max-width: 980px){ .grid{grid-template-columns: repeat(2, 1fr)} }
     @media (max-width: 640px){ .grid{grid-template-columns: 1fr} }
 
-    /* Cards - upgraded layout (thumbnail + tighter hierarchy) */
     .card{
       border:1px solid rgba(20,25,40,.10);
       background: rgba(255,255,255,.92);
@@ -351,7 +332,6 @@
       position:relative;
       overflow:hidden;
       transition: .15s ease;
-
       display:grid;
       grid-template-columns: 76px 1fr;
       gap:12px;
@@ -416,7 +396,6 @@
       font-weight:900;
     }
 
-    /* Category boxes */
     .twoCol{
       display:grid; grid-template-columns: 1fr 1fr; gap:12px;
       margin-top:16px;
@@ -432,7 +411,6 @@
     .box h3{margin:0 0 6px; font-size:16px; letter-spacing:-.2px}
     .box p{margin:0; color:var(--muted); font-size:13px; font-weight:700}
 
-    /* Footer */
     footer{
       margin-top:24px;
       border-top:1px solid rgba(20,25,40,.08);
@@ -445,7 +423,6 @@
     }
     footer a:hover{border-bottom-color: rgba(20,25,40,.35)}
 
-    /* Modal */
     .modalBack{
       position:fixed; inset:0;
       background: rgba(10,12,20,.40);
@@ -529,7 +506,6 @@
       clip:rect(0,0,0,0); white-space:nowrap; border:0;
     }
 
-    /* Mobile sticky CTA bar */
     .mobileCta{
       position: fixed;
       left: 12px; right: 12px; bottom: 12px;
@@ -548,13 +524,11 @@
       footer{ padding-bottom: 96px; }
     }
 
-    /* Accessibility: keyboard focus */
     .pill:focus, .btn:focus, .cta:focus, .ghost:focus, .chip:focus {
       outline: none;
       box-shadow: 0 0 0 4px rgba(124,58,237,.18);
     }
 
-    /* Reduced motion support */
     @media (prefers-reduced-motion: reduce) {
       * { transition: none !important; animation: none !important; }
       html { scroll-behavior: auto !important; }
@@ -618,7 +592,6 @@
           <button class="btn grad" id="applyFilter">Filter</button>
         </div>
 
-        <!-- Quick filter chips -->
         <div class="chips" id="chips" aria-label="Quick filters">
           <button class="chip" data-chip="Under20">Under $20</button>
           <button class="chip" data-chip="Patio">Patio</button>
@@ -784,7 +757,7 @@
 
   <!-- Mobile sticky CTA -->
   <div class="mobileCta" id="mobileCta">
-    <button class="btn grad" onclick="document.getElementById('openPricing').click()">Get Featured</button>
+    <button class="btn grad" onclick="document.getElementById('openPricing')?.click()">Get Featured</button>
     <button class="btn dash" onclick="openClaim('')">Claim Listing</button>
   </div>
 
@@ -828,38 +801,48 @@
 
     // ✅ Load from API (Worker -> KV)
     async function loadRestaurants(){
-      const res = await fetch(API_URL, { cache: "no-store" });
+      const url = API_URL + (API_URL.includes("?") ? "&" : "?") + "v=" + Date.now();
+      const res = await fetch(url, { cache: "no-store" });
       if (!res.ok) throw new Error("API request failed: " + res.status);
 
       const data = await res.json();
-      const list = Array.isArray(data.restaurants) ? data.restaurants : [];
+
+      // ✅ Supports either { restaurants: [...] } OR [...] responses
+      const list = Array.isArray(data)
+        ? data
+        : (Array.isArray(data.restaurants) ? data.restaurants : []);
 
       // Update kicker line with live timestamp (optional)
       const kicker = document.querySelector(".kicker");
       if (kicker) {
-        const when = data.generatedAt ? new Date(data.generatedAt).toLocaleString() : "just now";
+        const when = data && data.generatedAt ? new Date(data.generatedAt).toLocaleString() : "just now";
         kicker.innerHTML = `<span class="dot"></span> ${esc(CITY)} • updated ${esc(when)}`;
       }
 
-      // Map API fields -> your template fields
+      // Map API fields -> your template fields (safe defaults)
       restaurants = list.map((r) => {
-        const name = r.name || "Unnamed";
-        const neighborhood = (r.formattedAddress || "").split(",")[0] || CITY;
+        const name = (r && r.name) ? r.name : "Unnamed";
+        const addr = (r && r.formattedAddress) ? String(r.formattedAddress) : "";
+        const neighborhood = (addr.split(",")[0] || "").trim() || "Barrie";
+
+        const tags = Array.isArray(r?.tags) ? r.tags : [];
+        const category = r?.category || "Restaurant";
+        const mergedTags = tags.length ? tags : [category];
 
         return {
-          id: r.id || name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g,""),
+          id: r?.id || name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g,""),
           name,
-          category: r.category || "Restaurant",
+          category,
           neighborhood,
-          rating: Number(r.rating || 0),
-          reviews: Number(r.reviews || 0),
-          price: r.price || "",
-          tags: Array.isArray(r.tags) ? r.tags : [],
-          phone: r.nationalPhoneNumber || "",
-          website: r.websiteUri || "",
-          delivery: r.delivery || { ubereats:"", doordash:"" },
-          featured: Boolean(r.featured),
-          spotlight: Boolean(r.spotlight),
+          rating: Number(r?.rating || 0),
+          reviews: Number(r?.reviews || 0),
+          price: r?.price || "", // if your API later adds it
+          tags: mergedTags,
+          phone: r?.nationalPhoneNumber || r?.phoneNumber || "",
+          website: r?.websiteUri || r?.website || "",
+          delivery: r?.delivery || { ubereats:"", doordash:"" },
+          featured: Boolean(r?.featured),
+          spotlight: Boolean(r?.spotlight),
         };
       });
     }
@@ -872,7 +855,7 @@
       if (r.delivery?.ubereats) deliveryLinks.push(`<a class="btn" href="${esc(r.delivery.ubereats)}" target="_blank" rel="noopener">Uber Eats</a>`);
       if (r.delivery?.doordash) deliveryLinks.push(`<a class="btn" href="${esc(r.delivery.doordash)}" target="_blank" rel="noopener">DoorDash</a>`);
 
-      const callHref = r.phone ? `tel:${r.phone.replace(/[^+\d]/g,'')}` : "";
+      const callHref = r.phone ? `tel:${String(r.phone).replace(/[^+\d]/g,'')}` : "";
       const claimBtn = `<button class="btn dash" onclick="openClaim('${esc(r.name)}')">Claim</button>`;
 
       return `
@@ -904,8 +887,8 @@
     }
 
     function render(){
-      $("year").textContent = new Date().getFullYear();
-      $("countTotal").textContent = restaurants.length;
+      if ($("year")) $("year").textContent = new Date().getFullYear();
+      if ($("countTotal")) $("countTotal").textContent = restaurants.length;
 
       const top10 = [...restaurants]
         .sort((a,b)=>{
@@ -917,21 +900,20 @@
         })
         .slice(0,10);
 
-      $("top10Grid").innerHTML = top10.map(makeCard).join("");
+      if ($("top10Grid")) $("top10Grid").innerHTML = top10.map(makeCard).join("");
       applyFilter();
       injectSchema(top10);
     }
 
     function applyFilter(){
-      const q = ($("q").value || "").trim().toLowerCase();
-      const cat = $("cat").value;
+      const q = (($("q")?.value || "")).trim().toLowerCase();
+      const cat = ($("cat")?.value || "all");
 
       let filtered = restaurants.filter(r=>{
         const hay = [r.name, r.category, r.neighborhood, ...(r.tags||[])].join(" ").toLowerCase();
         const matchQ = !q || hay.includes(q);
         const matchC = (cat === "all") || (r.category === cat);
 
-        // Chip matching: price + tags
         const tagsLower = new Set((r.tags||[]).map(t => String(t).toLowerCase()));
         const matchChips = (() => {
           if (activeChips.size === 0) return true;
@@ -955,6 +937,8 @@
         return (b.reviews||0) - (a.reviews||0);
       });
 
+      if (!$("dirGrid")) return;
+
       if (filtered.length === 0) {
         $("dirGrid").innerHTML = `
           <div class="box" style="grid-column: 1 / -1;">
@@ -969,63 +953,64 @@
     }
 
     function setCategory(cat){
-      $("cat").value = cat === "all" ? "all" : cat;
+      if ($("cat")) $("cat").value = cat === "all" ? "all" : cat;
       applyFilter();
-      document.getElementById("directory").scrollIntoView({behavior:"smooth"});
+      document.getElementById("directory")?.scrollIntoView({behavior:"smooth"});
     }
     window.setCategory = setCategory;
 
     // Modal
     const modalBack = $("modalBack");
     function openModal(){
+      if (!modalBack) return;
       modalBack.style.display = "flex";
       document.body.style.overflow = "hidden";
     }
     function closeModal(){
+      if (!modalBack) return;
       modalBack.style.display = "none";
       document.body.style.overflow = "";
-      $("helperMsg").textContent = "Demo uses a mailto link (no backend). Later: connect to a Cloudflare Worker form endpoint.";
+      if ($("helperMsg")) $("helperMsg").textContent = "Demo uses a mailto link (no backend). Later: connect to a Cloudflare Worker form endpoint.";
     }
     function openClaim(restaurantName){
-      $("fRestaurant").value = restaurantName || "";
-      $("fPlan").value = "Just claiming my listing (no featured plan)";
+      if ($("fRestaurant")) $("fRestaurant").value = restaurantName || "";
+      if ($("fPlan")) $("fPlan").value = "Just claiming my listing (no featured plan)";
       openModal();
     }
     window.openClaim = openClaim;
 
-    $("openPricing").addEventListener("click", ()=>{ $("fPlan").value = "Featured Pro - $79/mo"; openModal(); });
-    $("openPricing2").addEventListener("click", ()=>{ $("fPlan").value = "Featured Pro - $79/mo"; openModal(); });
-    $("openClaim2").addEventListener("click", ()=>openClaim(""));
-    $("openClaimGeneral").addEventListener("click", ()=>openClaim(""));
+    $("openPricing")?.addEventListener("click", ()=>{ if ($("fPlan")) $("fPlan").value = "Featured Pro - $79/mo"; openModal(); });
+    $("openPricing2")?.addEventListener("click", ()=>{ if ($("fPlan")) $("fPlan").value = "Featured Pro - $79/mo"; openModal(); });
+    $("openClaim2")?.addEventListener("click", ()=>openClaim(""));
+    $("openClaimGeneral")?.addEventListener("click", ()=>openClaim(""));
 
-    $("closeModal").addEventListener("click", closeModal);
-    modalBack.addEventListener("click", (e)=>{ if(e.target === modalBack) closeModal(); });
+    $("closeModal")?.addEventListener("click", closeModal);
+    modalBack?.addEventListener("click", (e)=>{ if(e.target === modalBack) closeModal(); });
 
-    $("jumpDirectory").addEventListener("click", ()=> document.getElementById("directory").scrollIntoView({behavior:"smooth"}) );
-    $("applyFilter").addEventListener("click", applyFilter);
+    $("jumpDirectory")?.addEventListener("click", ()=> document.getElementById("directory")?.scrollIntoView({behavior:"smooth"}) );
+    $("applyFilter")?.addEventListener("click", applyFilter);
 
-    // Faster filtering
     let raf = null;
-    $("q").addEventListener("input", ()=>{
+    $("q")?.addEventListener("input", ()=>{
       if (raf) cancelAnimationFrame(raf);
       raf = requestAnimationFrame(applyFilter);
     });
 
-    $("cat").addEventListener("change", applyFilter);
+    $("cat")?.addEventListener("change", applyFilter);
 
     // Submit (mailto demo)
-    $("sendClaim").addEventListener("click", ()=>{
-      const restaurant = $("fRestaurant").value.trim();
-      const email = $("fEmail").value.trim();
-      const phone = $("fPhone").value.trim();
-      const plan = $("fPlan").value;
+    $("sendClaim")?.addEventListener("click", ()=>{
+      const restaurant = ($("fRestaurant")?.value || "").trim();
+      const email = ($("fEmail")?.value || "").trim();
+      const phone = ($("fPhone")?.value || "").trim();
+      const plan = ($("fPlan")?.value || "");
 
       if(!restaurant){
-        $("helperMsg").textContent = "Please enter the restaurant name.";
+        if ($("helperMsg")) $("helperMsg").textContent = "Please enter the restaurant name.";
         return;
       }
       if(!email || !email.includes("@")){
-        $("helperMsg").textContent = "Please enter a valid email address.";
+        if ($("helperMsg")) $("helperMsg").textContent = "Please enter a valid email address.";
         return;
       }
 
@@ -1046,10 +1031,10 @@ Requested actions:
       );
       const to = "hello@" + SITE;
       window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
-      $("helperMsg").textContent = "Opening email draft…";
+      if ($("helperMsg")) $("helperMsg").textContent = "Opening email draft…";
     });
 
-    $("copyEmailTemplate").addEventListener("click", async ()=>{
+    $("copyEmailTemplate")?.addEventListener("click", async ()=>{
       const template =
 `Subject: ${CITY} — want priority placement?
 
@@ -1068,9 +1053,9 @@ ${SITE}`;
 
       try{
         await navigator.clipboard.writeText(template);
-        $("helperMsg").textContent = "Copied outreach email template ✅";
+        if ($("helperMsg")) $("helperMsg").textContent = "Copied outreach email template ✅";
       }catch{
-        $("helperMsg").textContent = "Couldn’t auto-copy (browser blocked).";
+        if ($("helperMsg")) $("helperMsg").textContent = "Couldn’t auto-copy (browser blocked).";
       }
     });
 
@@ -1137,14 +1122,15 @@ ${SITE}`;
         render();
       }catch(e){
         console.error(e);
-        $("countTotal").textContent = "0";
-        $("top10Grid").innerHTML = `
+        if ($("countTotal")) $("countTotal").textContent = "0";
+        const msg = `
           <div class="box" style="grid-column:1/-1;">
             <h3 style="margin:0 0 6px;">Couldn’t load restaurants</h3>
             <p style="margin:0;color:var(--muted);">Open DevTools → Console. Check API_URL and that /api/restaurants returns JSON.</p>
           </div>
         `;
-        $("dirGrid").innerHTML = $("top10Grid").innerHTML;
+        if ($("top10Grid")) $("top10Grid").innerHTML = msg;
+        if ($("dirGrid")) $("dirGrid").innerHTML = msg;
       }
     })();
   </script>
