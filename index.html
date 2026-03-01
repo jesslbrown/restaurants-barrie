@@ -1,0 +1,1147 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <title>Best Restaurants in Dartmouth, NS (Top 10 + Local Directory)</title>
+  <meta name="description" content="Discover the best restaurants in Dartmouth, NS. Browse Top 10, filter by category, and claim your listing for featured placement." />
+  <link rel="canonical" href="https://restaurants-dartmouth.com/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Best Restaurants in Dartmouth, NS (Top 10 + Local Directory)" />
+  <meta property="og:description" content="Top 10 restaurants + directory with categories. Claim your listing for featured placement." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://restaurants-dartmouth.com/" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='50' font-size='50'%3E%F0%9F%8D%94%3C/text%3E%3C/svg%3E">
+
+  <style>
+    :root{
+      --bg: #ffffff;
+      --bg2:#f7f7ff;
+      --text:#0b1020;
+
+      /* Stronger muted (better contrast) */
+      --muted:#4b5563;
+      --muted2:#6b7280;
+
+      --card:#ffffff;
+      --border: rgba(20, 25, 40, .10);
+      --shadow: 0 14px 40px rgba(10, 12, 20, .10);
+
+      --gradA:#7c3aed; /* purple */
+      --gradB:#06b6d4; /* cyan */
+      --gradC:#22c55e; /* green */
+
+      --chip:#f2f4ff;
+
+      --radius: 22px;
+      --radius2: 16px;
+
+      --max: 1140px;
+
+      /* Spacing scale */
+      --s1: 8px;
+      --s2: 12px;
+      --s3: 16px;
+      --s4: 24px;
+
+      /* Type scale */
+      --h1: clamp(28px, 3.1vw, 44px);
+      --h2: 20px;
+      --body: 15px;
+      --small: 13px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--text);
+      background:
+        radial-gradient(1000px 520px at 10% -10%, rgba(124,58,237,.14), transparent 60%),
+        radial-gradient(900px 500px at 90% 0%, rgba(6,182,212,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg2), #fff 42%, #fff);
+      line-height:1.35;
+    }
+    a{color:inherit}
+
+    /* Typography scale */
+    h1{ font-size: var(--h1); }
+    .sectionTitle h2{ font-size: var(--h2); }
+    .sub{ font-size: var(--body); }
+    .meta, .sectionTitle p, footer{ font-size: var(--small); }
+
+    .wrap{max-width:var(--max); margin:0 auto; padding:22px 18px}
+    @media(min-width:768px){ .wrap{padding:26px 22px} }
+
+    /* Topbar */
+    .topbar{
+      position:sticky; top:0; z-index:80;
+      background: rgba(255,255,255,.70);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(20,25,40,.08);
+    }
+    .topbar .wrap{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding-top:14px; padding-bottom:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      text-decoration:none;
+      font-weight:900;
+      letter-spacing:-.2px;
+    }
+    .logo{
+      width:42px; height:42px; border-radius:14px;
+      display:grid; place-items:center;
+      background: linear-gradient(135deg, rgba(124,58,237,1), rgba(6,182,212,1));
+      box-shadow: 0 14px 30px rgba(124,58,237,.18);
+    }
+    .brand small{
+      display:block;
+      font-weight:700;
+      color:var(--muted);
+      margin-top:2px;
+      font-size:12px;
+      letter-spacing:0;
+    }
+
+    .nav{
+      display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+      font-size:13px;
+      color:var(--muted);
+    }
+    .pill{
+      border: 1px solid rgba(20,25,40,.10);
+      padding:9px 11px;
+      border-radius:999px;
+      text-decoration:none;
+      background: rgba(255,255,255,.70);
+      transition:.15s ease;
+    }
+    .pill:hover{transform: translateY(-1px); box-shadow: 0 10px 20px rgba(10,12,20,.08)}
+    .cta{
+      border:0;
+      padding:10px 12px;
+      border-radius:999px;
+      color:#fff;
+      font-weight:900;
+      cursor:pointer;
+      background: linear-gradient(135deg, var(--gradA), var(--gradB));
+      box-shadow: 0 14px 30px rgba(6,182,212,.18);
+      transition:.15s ease;
+      white-space:nowrap;
+    }
+    .cta:hover{transform: translateY(-1px); filter: brightness(1.03)}
+
+    /* Mobile: keep CTA, hide extra pills */
+    @media (max-width: 520px){
+      .nav .pill{ display:none; }
+    }
+
+    /* Hero */
+    .hero{
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap:14px;
+      align-items:stretch;
+      margin-top:10px;
+    }
+    @media(max-width: 980px){ .hero{grid-template-columns:1fr} }
+
+    .hcard{
+      border:1px solid rgba(20,25,40,.10);
+      background:
+        radial-gradient(900px 420px at 10% 0%, rgba(124,58,237,.14), transparent 62%),
+        radial-gradient(700px 380px at 100% 10%, rgba(6,182,212,.10), transparent 60%),
+        #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:16px;
+      position:relative;
+      overflow:hidden;
+    }
+    .kicker{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 11px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:800;
+      color: rgba(11,16,32,.85);
+      background: rgba(255,255,255,.88);
+      border:1px solid rgba(20,25,40,.08);
+    }
+    .kicker .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: linear-gradient(135deg, var(--gradA), var(--gradB));
+      box-shadow: 0 8px 18px rgba(124,58,237,.20);
+    }
+
+    h1{
+      margin:12px 0 8px;
+      line-height:1.04;
+      letter-spacing:-.9px;
+    }
+
+    .sub{
+      color: var(--muted);
+      max-width: 65ch;
+      margin: 0;
+    }
+
+    .heroActions{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:14px;
+    }
+    .ghost{
+      border:1px solid rgba(20,25,40,.10);
+      background: rgba(255,255,255,.88);
+      padding:10px 12px;
+      border-radius:999px;
+      font-weight:900;
+      cursor:pointer;
+      transition:.15s ease;
+    }
+    .ghost:hover{transform: translateY(-1px); box-shadow: 0 10px 20px rgba(10,12,20,.08)}
+
+    .searchRow{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:14px;
+    }
+    .input{
+      flex:1;
+      min-width: 220px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(20,25,40,.10);
+      border-radius: 14px;
+      padding:12px 12px;
+      color: var(--text);
+      outline:none;
+      transition:.15s ease;
+    }
+    .input:focus{box-shadow: 0 0 0 4px rgba(124,58,237,.12); border-color: rgba(124,58,237,.35)}
+    .input::placeholder{color: rgba(75,85,99,.72)}
+    .select{
+      min-width: 190px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(20,25,40,.10);
+      border-radius: 14px;
+      padding:12px 12px;
+      color: var(--text);
+      outline:none;
+      cursor:pointer;
+      transition:.15s ease;
+    }
+    .select:focus{box-shadow: 0 0 0 4px rgba(6,182,212,.10); border-color: rgba(6,182,212,.35)}
+
+    .btn{
+      border:1px solid rgba(20,25,40,.10);
+      background: rgba(255,255,255,.88);
+      padding:10px 12px;
+      border-radius: 14px;
+      text-decoration:none;
+      font-weight:900;
+      font-size:13px;
+      cursor:pointer;
+      transition:.15s ease;
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .btn:hover{transform: translateY(-1px); box-shadow: 0 12px 22px rgba(10,12,20,.08)}
+    .btn:active, .cta:active, .ghost:active, .pill:active { transform: translateY(0) scale(.99); }
+
+    .btn.primary{
+      border:0;
+      color:#fff;
+      background: linear-gradient(135deg, var(--gradC), #16a34a);
+      box-shadow: 0 14px 30px rgba(34,197,94,.16);
+    }
+    .btn.grad{
+      border:0;
+      color:#fff;
+      background: linear-gradient(135deg, var(--gradA), var(--gradB));
+      box-shadow: 0 14px 30px rgba(124,58,237,.14);
+    }
+    .btn.dash{
+      border:1px dashed rgba(20,25,40,.22);
+      background: rgba(255,255,255,.80);
+    }
+
+    .note{
+      margin-top:10px;
+      color: var(--muted2);
+      font-size:13px;
+      font-weight:700;
+    }
+
+    /* Quick filter chips */
+    .chips{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .chip{
+      border:1px solid rgba(20,25,40,.10);
+      background: rgba(255,255,255,.88);
+      padding:8px 10px;
+      border-radius:999px;
+      font-weight:900;
+      font-size:12px;
+      cursor:pointer;
+      transition:.15s ease;
+    }
+    .chip:hover{ transform: translateY(-1px); box-shadow: 0 10px 20px rgba(10,12,20,.08); }
+    .chip.active{
+      border-color: rgba(124,58,237,.35);
+      box-shadow: 0 0 0 4px rgba(124,58,237,.12);
+    }
+
+    /* Stats */
+    .sideStats{
+      display:grid; gap:12px;
+      grid-template-columns:1fr;
+    }
+    .stat{
+      border:1px solid rgba(20,25,40,.10);
+      background: rgba(255,255,255,.88);
+      border-radius: var(--radius);
+      padding:14px 14px 12px;
+      box-shadow: 0 10px 26px rgba(10,12,20,.06);
+      position:relative;
+      overflow:hidden;
+    }
+    .stat:before{
+      content:"";
+      position:absolute; inset:auto -40px -60px auto;
+      width:160px; height:160px; border-radius:999px;
+      background: radial-gradient(circle at 30% 30%, rgba(124,58,237,.18), transparent 60%);
+      filter: blur(2px);
+    }
+    .stat b{font-size:22px; letter-spacing:-.4px}
+    .stat div{color:var(--muted); font-size:13px; margin-top:6px; font-weight:700}
+
+    /* Sections */
+    .sectionTitle{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap:12px; margin: 22px 0 10px;
+    }
+    .sectionTitle h2{margin:0; letter-spacing:-.3px}
+    .sectionTitle p{margin:0; color:var(--muted); font-weight:700}
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+    }
+    @media (max-width: 980px){ .grid{grid-template-columns: repeat(2, 1fr)} }
+    @media (max-width: 640px){ .grid{grid-template-columns: 1fr} }
+
+    /* Cards - upgraded layout (thumbnail + tighter hierarchy) */
+    .card{
+      border:1px solid rgba(20,25,40,.10);
+      background: rgba(255,255,255,.92);
+      border-radius: var(--radius);
+      padding:14px;
+      box-shadow: 0 12px 30px rgba(10,12,20,.08);
+      position:relative;
+      overflow:hidden;
+      transition: .15s ease;
+
+      display:grid;
+      grid-template-columns: 76px 1fr;
+      gap:12px;
+      align-items:start;
+    }
+    .card:hover{transform: translateY(-2px); box-shadow: 0 18px 44px rgba(10,12,20,.10)}
+    .card:before{
+      content:"";
+      position:absolute; inset:-60px -60px auto auto;
+      width:170px; height:170px; border-radius:999px;
+      background: radial-gradient(circle at 30% 30%, rgba(6,182,212,.14), transparent 60%);
+    }
+    .thumb{
+      width:76px;
+      height:76px;
+      border-radius: 18px;
+      border: 1px solid rgba(20,25,40,.10);
+      background:
+        radial-gradient(circle at 30% 30%, rgba(124,58,237,.25), transparent 55%),
+        radial-gradient(circle at 80% 30%, rgba(6,182,212,.20), transparent 55%),
+        rgba(255,255,255,.9);
+      box-shadow: 0 10px 22px rgba(10,12,20,.08);
+    }
+    .cardMain{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    @media (max-width: 420px){
+      .card{ grid-template-columns: 68px 1fr; }
+      .thumb{ width:68px; height:68px; border-radius: 16px; }
+    }
+
+    .badge{
+      position:absolute; top:12px; right:12px;
+      font-size:12px; font-weight:1000;
+      padding:6px 10px; border-radius:999px;
+      background: rgba(34,197,94,.14);
+      border:1px solid rgba(34,197,94,.30);
+      color:#0b2b17;
+      backdrop-filter: blur(8px);
+    }
+    .badge.spotlight{
+      background: rgba(124,58,237,.14);
+      border:1px solid rgba(124,58,237,.30);
+      color:#2a0b57;
+    }
+    .row{display:flex; align-items:center; justify-content:space-between; gap:10px}
+    .name{font-weight:1000; font-size:16px; letter-spacing:-.2px}
+    .meta{color:var(--muted); font-weight:800}
+    .stars{font-size:13px}
+    .stars small{color:var(--muted); font-weight:800}
+
+    .tags{display:flex; flex-wrap:wrap; gap:6px}
+    .tag{
+      font-size:12px;
+      padding:7px 9px;
+      border-radius:999px;
+      border:1px solid rgba(20,25,40,.08);
+      background: var(--chip);
+      color: rgba(11,16,32,.75);
+      font-weight:900;
+    }
+
+    /* Category boxes */
+    .twoCol{
+      display:grid; grid-template-columns: 1fr 1fr; gap:12px;
+      margin-top:16px;
+    }
+    @media(max-width: 980px){ .twoCol{grid-template-columns:1fr} }
+    .box{
+      border:1px solid rgba(20,25,40,.10);
+      background: rgba(255,255,255,.88);
+      border-radius: var(--radius);
+      padding:16px;
+      box-shadow: 0 10px 26px rgba(10,12,20,.06);
+    }
+    .box h3{margin:0 0 6px; font-size:16px; letter-spacing:-.2px}
+    .box p{margin:0; color:var(--muted); font-size:13px; font-weight:700}
+
+    /* Footer */
+    footer{
+      margin-top:24px;
+      border-top:1px solid rgba(20,25,40,.08);
+      padding:22px 0 34px;
+      color:var(--muted);
+    }
+    footer a{
+      text-decoration:none;
+      border-bottom: 1px solid rgba(20,25,40,.18);
+    }
+    footer a:hover{border-bottom-color: rgba(20,25,40,.35)}
+
+    /* Modal */
+    .modalBack{
+      position:fixed; inset:0;
+      background: rgba(10,12,20,.40);
+      display:none; align-items:center; justify-content:center;
+      padding:18px;
+      z-index:1000;
+    }
+    .modal{
+      width:min(860px, 100%);
+      border:1px solid rgba(20,25,40,.10);
+      background: rgba(255,255,255,.92);
+      border-radius: 26px;
+      box-shadow: 0 24px 70px rgba(10,12,20,.22);
+      overflow:hidden;
+      backdrop-filter: blur(12px);
+    }
+    .modalHead{
+      padding:16px 16px 12px;
+      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+      border-bottom:1px solid rgba(20,25,40,.08);
+      background:
+        radial-gradient(700px 280px at 10% 0%, rgba(124,58,237,.16), transparent 60%),
+        radial-gradient(700px 280px at 100% 0%, rgba(6,182,212,.12), transparent 55%),
+        rgba(255,255,255,.88);
+    }
+    .modalHead h3{margin:0; font-size:16px; letter-spacing:-.2px}
+    .close{
+      background: rgba(255,255,255,.88);
+      border:1px solid rgba(20,25,40,.10);
+      color:var(--text);
+      border-radius:14px;
+      padding:9px 10px;
+      cursor:pointer;
+      font-weight:900;
+    }
+    .modalBody{padding:14px 16px 16px}
+    .priceGrid{
+      display:grid; grid-template-columns: repeat(3, 1fr); gap:10px;
+    }
+    @media(max-width: 820px){ .priceGrid{grid-template-columns:1fr} }
+    .plan{
+      border:1px solid rgba(20,25,40,.10);
+      background: rgba(255,255,255,.88);
+      border-radius: 20px;
+      padding:14px;
+      box-shadow: 0 10px 26px rgba(10,12,20,.06);
+      position:relative;
+      overflow:hidden;
+    }
+    .plan:before{
+      content:"";
+      position:absolute; inset:-60px -60px auto auto;
+      width:160px; height:160px; border-radius:999px;
+      background: radial-gradient(circle at 30% 30%, rgba(124,58,237,.10), transparent 60%);
+    }
+    .plan b{font-size:16px; letter-spacing:-.2px}
+    .plan .p{color:var(--muted); font-size:13px; margin:6px 0 10px; font-weight:700}
+    .plan .amt{font-size:26px; font-weight:1000; letter-spacing:-.6px}
+    .plan .amt small{font-size:12px; color:var(--muted); font-weight:900}
+    .plan ul{
+      margin:10px 0 0;
+      padding-left:18px;
+      color:var(--muted);
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .formRow{
+      display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px;
+    }
+    @media(max-width: 820px){ .formRow{grid-template-columns:1fr} }
+
+    .helper{
+      color:var(--muted2);
+      font-size:12px;
+      margin-top:10px;
+      font-weight:800;
+    }
+    .srOnly{
+      position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
+      clip:rect(0,0,0,0); white-space:nowrap; border:0;
+    }
+
+    /* Mobile sticky CTA bar */
+    .mobileCta{
+      position: fixed;
+      left: 12px; right: 12px; bottom: 12px;
+      display:none;
+      gap:10px;
+      padding:10px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.86);
+      border: 1px solid rgba(20,25,40,.10);
+      box-shadow: 0 20px 60px rgba(10,12,20,.18);
+      backdrop-filter: blur(12px);
+      z-index: 90;
+    }
+    @media (max-width: 720px){
+      .mobileCta{ display:flex; justify-content:space-between; }
+      footer{ padding-bottom: 96px; }
+    }
+
+    /* Accessibility: keyboard focus */
+    .pill:focus, .btn:focus, .cta:focus, .ghost:focus, .chip:focus {
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(124,58,237,.18);
+    }
+
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+      html { scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="wrap">
+      <a class="brand" href="#top">
+        <div class="logo" aria-hidden="true">🍔</div>
+        <div>
+          <div>Restaurants Dartmouth</div>
+          <small>Top 10 + directory • claim + get featured</small>
+        </div>
+      </a>
+
+      <div class="nav">
+        <a class="pill" href="#top10">Top 10</a>
+        <a class="pill" href="#categories">Categories</a>
+        <a class="pill" href="#directory">Directory</a>
+        <button class="cta" id="openPricing">Get Featured</button>
+      </div>
+    </div>
+  </div>
+
+  <main id="top" class="wrap">
+    <section class="hero">
+      <div class="hcard">
+        <div class="kicker"><span class="dot"></span> Dartmouth, Nova Scotia • updated weekly</div>
+
+        <h1>Where Dartmouth eats 🍟</h1>
+        <p class="sub">
+          Find the <b>Top 10</b>, filter by vibe (Sushi, Italian, Breakfast & more),
+          and tap <b>Claim</b> to update your listing + unlock featured placement.
+        </p>
+
+        <div class="heroActions">
+          <button class="cta" id="jumpDirectory">Browse the directory</button>
+          <button class="ghost" id="openClaimGeneral">Claim a listing</button>
+          <a class="ghost" href="#categories" style="text-decoration:none; display:inline-flex; align-items:center;">Browse categories</a>
+        </div>
+
+        <div class="searchRow">
+          <label class="srOnly" for="q">Search</label>
+          <input class="input" id="q" type="search" placeholder="Search (sushi, patio, pizza, brunch)..." />
+
+          <label class="srOnly" for="cat">Category</label>
+          <select class="select" id="cat">
+            <option value="all">All categories</option>
+            <option value="Breakfast">Breakfast</option>
+            <option value="Sushi">Sushi</option>
+            <option value="Italian">Italian</option>
+            <option value="Burgers">Burgers</option>
+            <option value="Seafood">Seafood</option>
+            <option value="Coffee">Coffee</option>
+            <option value="Vegan">Vegan</option>
+          </select>
+
+          <button class="btn grad" id="applyFilter">Filter</button>
+        </div>
+
+        <!-- Quick filter chips -->
+        <div class="chips" id="chips" aria-label="Quick filters">
+          <button class="chip" data-chip="Under20">Under $20</button>
+          <button class="chip" data-chip="Patio">Patio</button>
+          <button class="chip" data-chip="DateNight">Date night</button>
+          <button class="chip" data-chip="Takeout">Takeout</button>
+        </div>
+
+        <div class="note">
+          Built to plug into Google Places later (same card layout, swap the data array).
+        </div>
+      </div>
+
+      <aside class="sideStats">
+        <div class="stat">
+          <b id="countTotal">0</b>
+          <div>restaurants indexed (starter list)</div>
+        </div>
+        <div class="stat">
+          <b>$49–$149/mo</b>
+          <div>featured placement (cancel anytime)</div>
+        </div>
+        <div class="stat">
+          <b>$199</b>
+          <div>homepage spotlight (7 days)</div>
+        </div>
+      </aside>
+    </section>
+
+    <div class="sectionTitle" id="top10">
+      <h2>Top 10 in Dartmouth</h2>
+      <p>Featured picks based on rating + consistency + local buzz.</p>
+    </div>
+    <section class="grid" id="top10Grid"></section>
+
+    <div class="sectionTitle" id="categories">
+      <h2>Browse by vibe</h2>
+      <p>Fast internal links + easy scanning.</p>
+    </div>
+    <section class="twoCol">
+      <div class="box">
+        <h3>Popular right now</h3>
+        <p style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap">
+          <a class="pill" href="#directory" onclick="setCategory('Breakfast')">🍳 Breakfast</a>
+          <a class="pill" href="#directory" onclick="setCategory('Sushi')">🍣 Sushi</a>
+          <a class="pill" href="#directory" onclick="setCategory('Italian')">🍝 Italian</a>
+          <a class="pill" href="#directory" onclick="setCategory('Burgers')">🍔 Burgers</a>
+          <a class="pill" href="#directory" onclick="setCategory('Seafood')">🦞 Seafood</a>
+          <a class="pill" href="#directory" onclick="setCategory('Coffee')">☕ Coffee</a>
+          <a class="pill" href="#directory" onclick="setCategory('Vegan')">🥗 Vegan</a>
+          <a class="pill" href="#directory" onclick="setCategory('all')">✨ View all</a>
+        </p>
+      </div>
+      <div class="box">
+        <h3>Own a spot in Dartmouth?</h3>
+        <p>
+          Get priority placement in your category + a “Featured” badge.
+          Perfect for people clicking from Google/Maps who just want the best option fast.
+        </p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+          <button class="btn grad" id="openPricing2">Get featured</button>
+          <button class="btn dash" id="openClaim2">Claim this listing</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="sectionTitle" id="directory">
+      <h2>Directory</h2>
+      <p>Filter above. Add 50+ automatically with Google Places (Phase 2).</p>
+    </div>
+    <section class="grid" id="dirGrid"></section>
+
+    <footer>
+      <div class="wrap" style="padding:0">
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+          <div>
+            <b>restaurants-dartmouth.com</b> • built as a local vertical directory network
+            <span style="opacity:.75">© <span id="year"></span></span>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <a href="#top10">Top 10</a>
+            <a href="#categories">Categories</a>
+            <a href="#directory">Directory</a>
+            <a href="mailto:hello@restaurants-dartmouth.com">Advertise</a>
+          </div>
+        </div>
+        <div style="margin-top:10px;opacity:.88">
+          Disclaimer: Listings may include sample data until automated import is connected. Restaurants can claim listings to update details.
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- MODAL -->
+  <div class="modalBack" id="modalBack" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modalHead">
+        <div>
+          <h3 id="modalTitle">Get featured on restaurants-dartmouth.com</h3>
+          <div style="color:var(--muted);font-size:13px;margin-top:4px;font-weight:700">
+            Claim your listing + optional featured placement. Cancel anytime.
+          </div>
+        </div>
+        <button class="close" id="closeModal">Close</button>
+      </div>
+
+      <div class="modalBody">
+        <div class="priceGrid">
+          <div class="plan">
+            <b>Featured (Starter)</b>
+            <div class="p">Show above standard results in your category.</div>
+            <div class="amt">$49 <small>/ month</small></div>
+            <ul>
+              <li>Featured badge</li>
+              <li>Priority in category</li>
+              <li>Update hours + links</li>
+            </ul>
+          </div>
+          <div class="plan" style="border-color: rgba(34,197,94,.30)">
+            <b>Featured (Pro)</b>
+            <div class="p">Most popular — consistent clicks + calls.</div>
+            <div class="amt">$79 <small>/ month</small></div>
+            <ul>
+              <li>Top of category rotation</li>
+              <li>Delivery links (Uber / DoorDash)</li>
+              <li>Weekly performance email</li>
+            </ul>
+          </div>
+          <div class="plan" style="border-color: rgba(124,58,237,.30)">
+            <b>Homepage Spotlight</b>
+            <div class="p">Pinned on homepage + Top 10 for 7 days.</div>
+            <div class="amt">$199 <small>/ 7 days</small></div>
+            <ul>
+              <li>Spotlight badge</li>
+              <li>Homepage placement</li>
+              <li>Top 10 placement</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="formRow">
+          <input class="input" id="fRestaurant" placeholder="Restaurant name" />
+          <input class="input" id="fEmail" type="email" placeholder="Owner/manager email" />
+          <input class="input" id="fPhone" placeholder="Phone (optional)" />
+          <select class="select" id="fPlan">
+            <option value="Featured Starter - $49/mo">Featured Starter - $49/mo</option>
+            <option value="Featured Pro - $79/mo" selected>Featured Pro - $79/mo</option>
+            <option value="Homepage Spotlight - $199/7 days">Homepage Spotlight - $199/7 days</option>
+            <option value="Just claiming my listing (no featured plan)">Just claiming my listing (no featured plan)</option>
+          </select>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+          <button class="btn primary" id="sendClaim">Submit request</button>
+          <button class="btn dash" id="copyEmailTemplate">Copy outreach email</button>
+        </div>
+
+        <div class="helper" id="helperMsg">
+          Demo uses a mailto link (no backend). Later: connect to a Cloudflare Worker form endpoint.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile sticky CTA -->
+  <div class="mobileCta" id="mobileCta">
+    <button class="btn grad" onclick="document.getElementById('openPricing').click()">Get Featured</button>
+    <button class="btn dash" onclick="openClaim('')">Claim Listing</button>
+  </div>
+
+  <script>
+    const CITY = "Dartmouth, NS";
+    const SITE = "restaurants-dartmouth.com";
+
+    const restaurants = [
+      {
+        id: "harbour-bistro",
+        name: "Harbour Bistro",
+        category: "Seafood",
+        neighborhood: "Downtown Dartmouth",
+        rating: 4.7,
+        reviews: 812,
+        price: "$$",
+        tags: ["Patio", "Local", "Seafood"],
+        phone: "+1-902-555-0111",
+        website: "https://example.com",
+        delivery: {ubereats:"", doordash:""},
+        featured: true,
+        spotlight: true
+      },
+      {
+        id: "sakura-sushi",
+        name: "Sakura Sushi House",
+        category: "Sushi",
+        neighborhood: "Portland St",
+        rating: 4.6,
+        reviews: 540,
+        price: "$$",
+        tags: ["Sushi", "Takeout", "Fresh"],
+        phone: "+1-902-555-0122",
+        website: "https://example.com",
+        delivery: {ubereats:"", doordash:""},
+        featured: true,
+        spotlight: false
+      },
+      {
+        id: "north-end-brunch",
+        name: "North End Brunch Co.",
+        category: "Breakfast",
+        neighborhood: "North End",
+        rating: 4.5,
+        reviews: 670,
+        price: "$$",
+        tags: ["Brunch", "Coffee", "Weekend"],
+        phone: "+1-902-555-0133",
+        website: "https://example.com",
+        delivery: {ubereats:"", doordash:""},
+        featured: true,
+        spotlight: false
+      },
+      { id:"trattoria-vento", name:"Trattoria Vento", category:"Italian", neighborhood:"Alderney", rating:4.4, reviews:388, price:"$$", tags:["Pasta","Date night"], phone:"+1-902-555-0144", website:"https://example.com", delivery:{ubereats:"", doordash:""}, featured:false, spotlight:false },
+      { id:"burger-yard", name:"Burger Yard", category:"Burgers", neighborhood:"Wyse Rd", rating:4.3, reviews:415, price:"$", tags:["Smash burgers","Fries"], phone:"+1-902-555-0155", website:"https://example.com", delivery:{ubereats:"", doordash:""}, featured:false, spotlight:false },
+      { id:"green-fork", name:"Green Fork Kitchen", category:"Vegan", neighborhood:"Downtown Dartmouth", rating:4.5, reviews:260, price:"$$", tags:["Vegan","Gluten-free"], phone:"+1-902-555-0166", website:"https://example.com", delivery:{ubereats:"", doordash:""}, featured:false, spotlight:false },
+      { id:"dockside-coffee", name:"Dockside Coffee Bar", category:"Coffee", neighborhood:"Waterfront", rating:4.6, reviews:190, price:"$", tags:["Coffee","Pastries"], phone:"+1-902-555-0177", website:"https://example.com", delivery:{ubereats:"", doordash:""}, featured:false, spotlight:false },
+      { id:"ocean-plate", name:"Ocean Plate", category:"Seafood", neighborhood:"Portland Hills", rating:4.2, reviews:305, price:"$$$", tags:["Seafood","Fine dining"], phone:"+1-902-555-0188", website:"https://example.com", delivery:{ubereats:"", doordash:""}, featured:false, spotlight:false },
+      { id:"morning-stack", name:"Morning Stack", category:"Breakfast", neighborhood:"Cole Harbour", rating:4.1, reviews:220, price:"$", tags:["Breakfast","Family", "Takeout"], phone:"+1-902-555-0199", website:"https://example.com", delivery:{ubereats:"", doordash:""}, featured:false, spotlight:false }
+    ];
+
+    const $ = (id) => document.getElementById(id);
+    const esc = (s="") => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+    function stars(rating){
+      const full = Math.floor(rating);
+      const half = (rating - full) >= 0.5 ? 1 : 0;
+      const empty = 5 - full - half;
+      return "★".repeat(full) + (half ? "½" : "") + "☆".repeat(empty);
+    }
+
+    // Quick filter chips state
+    const activeChips = new Set();
+    const chipsEl = document.getElementById("chips");
+    if (chipsEl) {
+      chipsEl.addEventListener("click", (e) => {
+        const btn = e.target.closest(".chip");
+        if (!btn) return;
+        const key = btn.dataset.chip;
+        if (activeChips.has(key)) {
+          activeChips.delete(key);
+          btn.classList.remove("active");
+        } else {
+          activeChips.add(key);
+          btn.classList.add("active");
+        }
+        applyFilter();
+      });
+    }
+
+    function makeCard(r){
+      const badge = r.spotlight ? `<div class="badge spotlight">Spotlight</div>` :
+                    r.featured ? `<div class="badge">Featured</div>` : "";
+
+      const deliveryLinks = [];
+      if (r.delivery?.ubereats) deliveryLinks.push(`<a class="btn" href="${esc(r.delivery.ubereats)}" target="_blank" rel="noopener">Uber Eats</a>`);
+      if (r.delivery?.doordash) deliveryLinks.push(`<a class="btn" href="${esc(r.delivery.doordash)}" target="_blank" rel="noopener">DoorDash</a>`);
+
+      const callHref = r.phone ? `tel:${r.phone.replace(/[^+\d]/g,'')}` : "";
+      const claimBtn = `<button class="btn dash" onclick="openClaim('${esc(r.name)}')">Claim</button>`;
+
+      return `
+        <article class="card">
+          ${badge}
+          <div class="thumb" aria-hidden="true"></div>
+
+          <div class="cardMain">
+            <div class="row">
+              <div class="name">${esc(r.name)}</div>
+              <div class="meta" style="font-weight:1000">${esc(r.price || "")}</div>
+            </div>
+            <div class="row">
+              <div class="meta">${esc(r.category)} • ${esc(r.neighborhood)}</div>
+              <div class="stars">${stars(r.rating)} <small>${r.rating.toFixed(1)} (${r.reviews})</small></div>
+            </div>
+            <div class="tags">
+              ${(r.tags||[]).slice(0,6).map(t=>`<span class="tag">${esc(t)}</span>`).join("")}
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:2px">
+              ${r.website ? `<a class="btn" href="${esc(r.website)}" target="_blank" rel="noopener">Website</a>` : ""}
+              ${callHref ? `<a class="btn primary" href="${callHref}">Call</a>` : ""}
+              ${deliveryLinks.join("")}
+              ${claimBtn}
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function render(){
+      $("year").textContent = new Date().getFullYear();
+      $("countTotal").textContent = restaurants.length;
+
+      const top10 = [...restaurants]
+        .sort((a,b)=>{
+          const sa = (a.spotlight?2:0) + (a.featured?1:0);
+          const sb = (b.spotlight?2:0) + (b.featured?1:0);
+          if (sb !== sa) return sb - sa;
+          if (b.rating !== a.rating) return b.rating - a.rating;
+          return b.reviews - a.reviews;
+        })
+        .slice(0,10);
+
+      $("top10Grid").innerHTML = top10.map(makeCard).join("");
+      applyFilter();
+      injectSchema(top10);
+    }
+
+    function applyFilter(){
+      const q = ($("q").value || "").trim().toLowerCase();
+      const cat = $("cat").value;
+
+      let filtered = restaurants.filter(r=>{
+        const hay = [r.name, r.category, r.neighborhood, ...(r.tags||[])].join(" ").toLowerCase();
+        const matchQ = !q || hay.includes(q);
+        const matchC = (cat === "all") || (r.category === cat);
+
+        // Chip matching: price + tags
+        const tagsLower = new Set((r.tags||[]).map(t => t.toLowerCase()));
+        const matchChips = (() => {
+          if (activeChips.size === 0) return true;
+          for (const c of activeChips) {
+            if (c === "Under20" && (r.price || "") !== "$") return false;
+            if (c === "Patio" && !tagsLower.has("patio")) return false;
+            if (c === "DateNight" && !tagsLower.has("date night")) return false;
+            if (c === "Takeout" && !tagsLower.has("takeout")) return false;
+          }
+          return true;
+        })();
+
+        return matchQ && matchC && matchChips;
+      });
+
+      filtered.sort((a,b)=>{
+        const fa = (a.spotlight?2:0) + (a.featured?1:0);
+        const fb = (b.spotlight?2:0) + (b.featured?1:0);
+        if (fb !== fa) return fb - fa;
+        if (b.rating !== a.rating) return b.rating - a.rating;
+        return b.reviews - a.reviews;
+      });
+
+      if (filtered.length === 0) {
+        $("dirGrid").innerHTML = `
+          <div class="box" style="grid-column: 1 / -1;">
+            <h3 style="margin:0 0 6px;">No matches found</h3>
+            <p style="margin:0;color:var(--muted);">Try removing a filter or searching something broader (e.g., “pizza”, “brunch”, “patio”).</p>
+          </div>
+        `;
+        return;
+      }
+
+      $("dirGrid").innerHTML = filtered.map(makeCard).join("");
+    }
+
+    function setCategory(cat){
+      $("cat").value = cat === "all" ? "all" : cat;
+      applyFilter();
+      document.getElementById("directory").scrollIntoView({behavior:"smooth"});
+    }
+    window.setCategory = setCategory;
+
+    // Modal
+    const modalBack = $("modalBack");
+    function openModal(){
+      modalBack.style.display = "flex";
+      document.body.style.overflow = "hidden";
+    }
+    function closeModal(){
+      modalBack.style.display = "none";
+      document.body.style.overflow = "";
+      $("helperMsg").textContent = "Demo uses a mailto link (no backend). Later: connect to a Cloudflare Worker form endpoint.";
+    }
+    function openClaim(restaurantName){
+      $("fRestaurant").value = restaurantName || "";
+      $("fPlan").value = "Just claiming my listing (no featured plan)";
+      openModal();
+    }
+    window.openClaim = openClaim;
+
+    $("openPricing").addEventListener("click", ()=>{ $("fPlan").value = "Featured Pro - $79/mo"; openModal(); });
+    $("openPricing2").addEventListener("click", ()=>{ $("fPlan").value = "Featured Pro - $79/mo"; openModal(); });
+    $("openClaim2").addEventListener("click", ()=>openClaim(""));
+    $("openClaimGeneral").addEventListener("click", ()=>openClaim(""));
+
+    $("closeModal").addEventListener("click", closeModal);
+    modalBack.addEventListener("click", (e)=>{ if(e.target === modalBack) closeModal(); });
+
+    $("jumpDirectory").addEventListener("click", ()=> document.getElementById("directory").scrollIntoView({behavior:"smooth"}) );
+    $("applyFilter").addEventListener("click", applyFilter);
+
+    // Faster filtering (less jank than setTimeout)
+    let raf = null;
+    $("q").addEventListener("input", ()=>{
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(applyFilter);
+    });
+
+    $("cat").addEventListener("change", applyFilter);
+
+    // Submit (mailto demo)
+    $("sendClaim").addEventListener("click", ()=>{
+      const restaurant = $("fRestaurant").value.trim();
+      const email = $("fEmail").value.trim();
+      const phone = $("fPhone").value.trim();
+      const plan = $("fPlan").value;
+
+      if(!restaurant){
+        $("helperMsg").textContent = "Please enter the restaurant name.";
+        return;
+      }
+      if(!email || !email.includes("@")){
+        $("helperMsg").textContent = "Please enter a valid email address.";
+        return;
+      }
+
+      const subject = encodeURIComponent(`[Claim + Featured] ${restaurant} on ${SITE}`);
+      const body = encodeURIComponent(
+`Restaurant: ${restaurant}
+City: ${CITY}
+Plan: ${plan}
+Contact email: ${email}
+Phone: ${phone || "N/A"}
+
+Requested actions:
+- Claim listing ownership
+- Update business details (hours, links, menu)
+- Activate selected featured placement (if any)
+
+— Sent from ${SITE}`
+      );
+      const to = "hello@" + SITE;
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+      $("helperMsg").textContent = "Opening email draft…";
+    });
+
+    $("copyEmailTemplate").addEventListener("click", async ()=>{
+      const template =
+`Subject: Dartmouth — want priority placement?
+
+Hi {{FirstName}},
+
+We’re launching restaurants-dartmouth.com — a new Dartmouth dining directory highlighting top spots by category.
+
+Would you like priority placement for {{RestaurantName}} (Featured badge + top-of-category rotation + delivery links)?
+
+Plans are $49–$149/mo (cancel anytime). We also have a $199 homepage spotlight for 7 days.
+
+Want me to send a 30-second preview?
+
+— Jessica
+restaurants-dartmouth.com`;
+
+      try{
+        await navigator.clipboard.writeText(template);
+        $("helperMsg").textContent = "Copied outreach email template ✅";
+      }catch{
+        $("helperMsg").textContent = "Couldn’t auto-copy (browser blocked).";
+      }
+    });
+
+    // SEO schema
+    function injectSchema(top10){
+      document.querySelectorAll("script[data-schema]").forEach(n=>n.remove());
+
+      const itemList = {
+        "@context":"https://schema.org",
+        "@type":"ItemList",
+        "name":"Top 10 Restaurants in Dartmouth, NS",
+        "itemListOrder":"https://schema.org/ItemListOrderDescending",
+        "numberOfItems": top10.length,
+        "itemListElement": top10.map((r, idx)=>({
+          "@type":"ListItem",
+          "position": idx+1,
+          "name": r.name
+        }))
+      };
+
+      const website = {
+        "@context":"https://schema.org",
+        "@type":"WebSite",
+        "name":"Restaurants Dartmouth",
+        "url":"https://" + SITE + "/",
+        "potentialAction":{
+          "@type":"SearchAction",
+          "target":"https://" + SITE + "/?q={search_term_string}",
+          "query-input":"required name=search_term_string"
+        }
+      };
+
+      const breadcrumbs = {
+        "@context":"https://schema.org",
+        "@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"Home","item":"https://" + SITE + "/"}
+        ]
+      };
+
+      const faq = {
+        "@context":"https://schema.org",
+        "@type":"FAQPage",
+        "mainEntity":[
+          {"@type":"Question","name":"How do I claim my restaurant listing?","acceptedAnswer":{"@type":"Answer","text":"Tap “Claim” on your restaurant card and submit your contact details. We’ll confirm ownership and update your listing."}},
+          {"@type":"Question","name":"What does featured placement include?","acceptedAnswer":{"@type":"Answer","text":"Featured listings appear above standard results in your category and can include a badge, delivery links, and priority positioning."}},
+          {"@type":"Question","name":"Can I cancel anytime?","acceptedAnswer":{"@type":"Answer","text":"Yes. Featured plans are month-to-month and can be cancelled anytime."}}
+        ]
+      };
+
+      [website, breadcrumbs, itemList, faq].forEach(obj=>{
+        const s = document.createElement("script");
+        s.type = "application/ld+json";
+        s.setAttribute("data-schema","1");
+        s.textContent = JSON.stringify(obj);
+        document.head.appendChild(s);
+      });
+    }
+
+    render();
+  </script>
+</body>
+</html>
