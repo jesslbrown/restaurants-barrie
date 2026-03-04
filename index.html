@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#ffffff" />
 
-  <title>Best Restaurants in Barrie, ON (Top 10 + Local Directory)</title>
-  <meta name="description" content="Discover the best restaurants in Barrie, ON. Browse Top 10, filter by category, and get featured placement." />
+  <title>Best Restaurants in Barrie, ON (Top 3 + Local Directory)</title>
+  <meta name="description" content="Discover the best restaurants in Barrie, ON. Browse Top 3, filter by category, and get featured placement." />
   <link rel="canonical" href="https://restaurants-barrie.ca/" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Best Restaurants in Barrie, ON (Top 10 + Local Directory)" />
-  <meta property="og:description" content="Top 10 restaurants + directory with categories. Get featured placement." />
+  <meta property="og:title" content="Best Restaurants in Barrie, ON (Top 3 + Local Directory)" />
+  <meta property="og:description" content="Top 3 restaurants + directory with categories. Get featured placement." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://restaurants-barrie.ca/" />
 
@@ -543,12 +543,12 @@
         <div class="logo" aria-hidden="true">🍔</div>
         <div>
           <div>Restaurants Barrie</div>
-          <small>Top 10 + directory • get featured</small>
+          <small>Top 3 + directory • get featured</small>
         </div>
       </a>
 
       <div class="nav">
-        <a class="pill" href="#top10">Top 10</a>
+        <a class="pill" href="#top10">Top 3</a>
         <a class="pill" href="#categories">Categories</a>
         <a class="pill" href="#directory">Directory</a>
         <button class="cta" id="openPricing">Get Featured</button>
@@ -563,7 +563,7 @@
 
         <h1>Where Barrie eats 🍟</h1>
         <p class="sub">
-          Find the <b>Top 10</b>, filter by vibe (Sushi, Italian, Breakfast & more),
+          Find the <b>Top 3</b>, filter by vibe (Sushi, Italian, Breakfast & more),
           and explore the directory to find your next spot.
         </p>
 
@@ -620,7 +620,7 @@
     </section>
 
     <div class="sectionTitle" id="top10">
-      <h2>Top 10 in Barrie</h2>
+      <h2>Top 3 in Barrie</h2>
       <p>Featured picks based on rating + consistency + local buzz.</p>
     </div>
     <section class="grid" id="top10Grid"></section>
@@ -669,7 +669,7 @@
             <span style="opacity:.75">© <span id="year"></span></span>
           </div>
           <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <a href="#top10">Top 10</a>
+            <a href="#top10">Top 3</a>
             <a href="#categories">Categories</a>
             <a href="#directory">Directory</a>
             <a href="mailto:hello@restaurants-barrie.ca">Advertise</a>
@@ -857,7 +857,7 @@
       });
     }
 
-    // ✅ UPDATED: removed Claim button from cards
+    // Cards
     function makeCard(r){
       const badge = r.spotlight ? `<div class="badge spotlight">Spotlight</div>` :
                     r.featured ? `<div class="badge">Featured</div>` : "";
@@ -895,11 +895,12 @@
       `;
     }
 
+    // ✅ UPDATED: Top 3 rendering
     function render(){
       if ($("year")) $("year").textContent = new Date().getFullYear();
       if ($("countTotal")) $("countTotal").textContent = restaurants.length;
 
-      const top10 = [...restaurants]
+      const top3 = [...restaurants]
         .sort((a,b)=>{
           const sa = (a.spotlight?2:0) + (a.featured?1:0);
           const sb = (b.spotlight?2:0) + (b.featured?1:0);
@@ -907,11 +908,11 @@
           if (b.rating !== a.rating) return b.rating - a.rating;
           return (b.reviews||0) - (a.reviews||0);
         })
-        .slice(0,10);
+        .slice(0,3);
 
-      if ($("top10Grid")) $("top10Grid").innerHTML = top10.map(makeCard).join("");
+      if ($("top10Grid")) $("top10Grid").innerHTML = top3.map(makeCard).join("");
       applyFilter();
-      injectSchema(top10);
+      injectSchema(top3);
     }
 
     function applyFilter(){
@@ -1059,17 +1060,17 @@ ${SITE}`;
       }
     });
 
-    // SEO schema (removed “claim” FAQ)
-    function injectSchema(top10){
+    // ✅ UPDATED: schema now matches Top 3
+    function injectSchema(topList){
       document.querySelectorAll("script[data-schema]").forEach(n=>n.remove());
 
       const itemList = {
         "@context":"https://schema.org",
         "@type":"ItemList",
-        "name":`Top 10 Restaurants in ${CITY}`,
+        "name":`Top 3 Restaurants in ${CITY}`,
         "itemListOrder":"https://schema.org/ItemListOrderDescending",
-        "numberOfItems": top10.length,
-        "itemListElement": top10.map((r, idx)=>({
+        "numberOfItems": topList.length,
+        "itemListElement": topList.map((r, idx)=>({
           "@type":"ListItem",
           "position": idx+1,
           "name": r.name
@@ -1114,7 +1115,7 @@ ${SITE}`;
       });
     }
 
-    // ✅ Boot sequence: load API then render template
+    // Boot
     (async function init(){
       try{
         await loadRestaurants();
