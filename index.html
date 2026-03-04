@@ -224,14 +224,15 @@
     }
     .select:focus{box-shadow: 0 0 0 4px rgba(6,182,212,.10); border-color: rgba(6,182,212,.35)}
 
+    /* ✅ UPDATED: tighter buttons (less whitespace) */
     .btn{
       border:1px solid rgba(20,25,40,.10);
-      background: rgba(255,255,255,.88);
-      padding:10px 12px;
+      background: rgba(255,255,255,.92);
+      padding:7px 10px;
       border-radius: 14px;
       text-decoration:none;
       font-weight:900;
-      font-size:13px;
+      font-size:12px;
       cursor:pointer;
       transition:.15s ease;
       display:inline-flex; align-items:center; gap:8px;
@@ -315,54 +316,57 @@
     .sectionTitle h2{margin:0; letter-spacing:-.3px}
     .sectionTitle p{margin:0; color:var(--muted); font-weight:700}
 
+    /* ✅ UPDATED: tighter responsive grid (auto packs cards) */
     .grid{
       display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:12px;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap:10px;
     }
-    @media (max-width: 980px){ .grid{grid-template-columns: repeat(2, 1fr)} }
-    @media (max-width: 640px){ .grid{grid-template-columns: 1fr} }
 
+    /* ✅ UPDATED: modern compact card layout (removes whitespace) */
     .card{
-      border:1px solid rgba(20,25,40,.10);
-      background: rgba(255,255,255,.92);
-      border-radius: var(--radius);
-      padding:14px;
-      box-shadow: 0 12px 30px rgba(10,12,20,.08);
+      border:1px solid rgba(20,25,40,.08);
+      background:#fff;
+      border-radius:18px;
+      padding:12px;
+      box-shadow:0 8px 22px rgba(10,12,20,.06);
+      transition:.15s ease;
       position:relative;
       overflow:hidden;
-      transition: .15s ease;
-      display:grid;
-      grid-template-columns: 76px 1fr;
-      gap:12px;
-      align-items:start;
+
+      display:flex;
+      flex-direction:column;
+      gap:8px;
     }
-    .card:hover{transform: translateY(-2px); box-shadow: 0 18px 44px rgba(10,12,20,.10)}
+    .card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 14px 32px rgba(10,12,20,.10);
+    }
     .card:before{
       content:"";
       position:absolute; inset:-60px -60px auto auto;
       width:170px; height:170px; border-radius:999px;
-      background: radial-gradient(circle at 30% 30%, rgba(6,182,212,.14), transparent 60%);
+      background: radial-gradient(circle at 30% 30%, rgba(6,182,212,.12), transparent 60%);
+      pointer-events:none;
     }
+
+    /* ✅ UPDATED: wide banner thumbnail */
     .thumb{
-      width:76px;
-      height:76px;
-      border-radius: 18px;
-      border: 1px solid rgba(20,25,40,.10);
+      width:100%;
+      height:120px;
+      border-radius:14px;
+      border:1px solid rgba(20,25,40,.08);
       background:
         radial-gradient(circle at 30% 30%, rgba(124,58,237,.25), transparent 55%),
         radial-gradient(circle at 80% 30%, rgba(6,182,212,.20), transparent 55%),
         rgba(255,255,255,.9);
-      box-shadow: 0 10px 22px rgba(10,12,20,.08);
     }
+
+    /* kept for safety (not required anymore) */
     .cardMain{
       display:flex;
       flex-direction:column;
-      gap:10px;
-    }
-    @media (max-width: 420px){
-      .card{ grid-template-columns: 68px 1fr; }
-      .thumb{ width:68px; height:68px; border-radius: 16px; }
+      gap:6px;
     }
 
     .badge{
@@ -373,19 +377,23 @@
       border:1px solid rgba(34,197,94,.30);
       color:#0b2b17;
       backdrop-filter: blur(8px);
+      z-index:2;
     }
     .badge.spotlight{
       background: rgba(124,58,237,.14);
       border:1px solid rgba(124,58,237,.30);
       color:#2a0b57;
     }
-    .row{display:flex; align-items:center; justify-content:space-between; gap:10px}
+
+    /* ✅ UPDATED: tighter row spacing */
+    .row{display:flex; align-items:center; justify-content:space-between; gap:6px}
     .name{font-weight:1000; font-size:16px; letter-spacing:-.2px}
     .meta{color:var(--muted); font-weight:800}
     .stars{font-size:13px}
     .stars small{color:var(--muted); font-weight:800}
 
-    .tags{display:flex; flex-wrap:wrap; gap:6px}
+    /* ✅ UPDATED: tighter tags */
+    .tags{display:flex; flex-wrap:wrap; gap:4px}
     .tag{
       font-size:12px;
       padding:7px 9px;
@@ -857,7 +865,7 @@
       });
     }
 
-    // ✅ UPDATED: call button is only shown when allowCall=true (Top 3).
+    // ✅ UPDATED: compact modern card HTML (and Call only for Top 3)
     function makeCard(r, { allowCall = true } = {}){
       const badge = r.spotlight ? `<div class="badge spotlight">Spotlight</div>` :
                     r.featured ? `<div class="badge">Featured</div>` : "";
@@ -871,25 +879,24 @@
       return `
         <article class="card">
           ${badge}
+
           <div class="thumb" aria-hidden="true"></div>
 
-          <div class="cardMain">
-            <div class="row">
-              <div class="name">${esc(r.name)}</div>
-              <div class="meta" style="font-weight:1000">${esc(r.price || "")}</div>
-            </div>
-            <div class="row">
-              <div class="meta">${esc(r.category)} • ${esc(r.neighborhood)}</div>
-              <div class="stars">${stars(r.rating)} <small>${Number(r.rating||0).toFixed(1)} (${r.reviews||0})</small></div>
-            </div>
-            <div class="tags">
-              ${(r.tags||[]).slice(0,6).map(t=>`<span class="tag">${esc(t)}</span>`).join("")}
-            </div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:2px">
-              ${r.website ? `<a class="btn" href="${esc(r.website)}" target="_blank" rel="noopener">Website</a>` : ""}
-              ${callHref ? `<a class="btn primary" href="${callHref}">Call</a>` : ""}
-              ${deliveryLinks.join("")}
-            </div>
+          <div class="row">
+            <div class="name">${esc(r.name)}</div>
+            <div class="stars">${stars(r.rating)} <small>${Number(r.rating||0).toFixed(1)}</small></div>
+          </div>
+
+          <div class="meta">${esc(r.category)} • ${esc(r.neighborhood)}</div>
+
+          <div class="tags">
+            ${(r.tags||[]).slice(0,5).map(t=>`<span class="tag">${esc(t)}</span>`).join("")}
+          </div>
+
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
+            ${r.website ? `<a class="btn" href="${esc(r.website)}" target="_blank" rel="noopener">Website</a>` : ""}
+            ${callHref ? `<a class="btn primary" href="${callHref}">Call</a>` : ""}
+            ${deliveryLinks.join("")}
           </div>
         </article>
       `;
