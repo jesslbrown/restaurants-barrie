@@ -857,8 +857,8 @@
       });
     }
 
-    // Cards
-    function makeCard(r){
+    // ✅ UPDATED: call button is only shown when allowCall=true (Top 3).
+    function makeCard(r, { allowCall = true } = {}){
       const badge = r.spotlight ? `<div class="badge spotlight">Spotlight</div>` :
                     r.featured ? `<div class="badge">Featured</div>` : "";
 
@@ -866,7 +866,7 @@
       if (r.delivery?.ubereats) deliveryLinks.push(`<a class="btn" href="${esc(r.delivery.ubereats)}" target="_blank" rel="noopener">Uber Eats</a>`);
       if (r.delivery?.doordash) deliveryLinks.push(`<a class="btn" href="${esc(r.delivery.doordash)}" target="_blank" rel="noopener">DoorDash</a>`);
 
-      const callHref = r.phone ? `tel:${String(r.phone).replace(/[^+\d]/g,'')}` : "";
+      const callHref = (allowCall && r.phone) ? `tel:${String(r.phone).replace(/[^+\d]/g,'')}` : "";
 
       return `
         <article class="card">
@@ -895,7 +895,7 @@
       `;
     }
 
-    // ✅ UPDATED: Top 3 rendering
+    // Top 3 rendering (Call button allowed)
     function render(){
       if ($("year")) $("year").textContent = new Date().getFullYear();
       if ($("countTotal")) $("countTotal").textContent = restaurants.length;
@@ -910,11 +910,12 @@
         })
         .slice(0,3);
 
-      if ($("top10Grid")) $("top10Grid").innerHTML = top3.map(makeCard).join("");
+      if ($("top10Grid")) $("top10Grid").innerHTML = top3.map(r => makeCard(r, { allowCall: true })).join("");
       applyFilter();
       injectSchema(top3);
     }
 
+    // Directory rendering (Call button removed)
     function applyFilter(){
       const q = (($("q")?.value || "")).trim().toLowerCase();
       const cat = ($("cat")?.value || "all");
@@ -959,7 +960,8 @@
         return;
       }
 
-      $("dirGrid").innerHTML = filtered.map(makeCard).join("");
+      // ✅ Call button removed in directory:
+      $("dirGrid").innerHTML = filtered.map(r => makeCard(r, { allowCall: false })).join("");
     }
 
     function setCategory(cat){
@@ -1060,7 +1062,7 @@ ${SITE}`;
       }
     });
 
-    // ✅ UPDATED: schema now matches Top 3
+    // schema matches Top 3
     function injectSchema(topList){
       document.querySelectorAll("script[data-schema]").forEach(n=>n.remove());
 
