@@ -6,12 +6,12 @@
   <meta name="theme-color" content="#ffffff" />
 
   <title>Best Restaurants in Barrie, ON (Top 10 + Local Directory)</title>
-  <meta name="description" content="Discover the best restaurants in Barrie, ON. Browse Top 10, filter by category, and claim your listing for featured placement." />
+  <meta name="description" content="Discover the best restaurants in Barrie, ON. Browse Top 10, filter by category, and get featured placement." />
   <link rel="canonical" href="https://restaurants-barrie.ca/" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Best Restaurants in Barrie, ON (Top 10 + Local Directory)" />
-  <meta property="og:description" content="Top 10 restaurants + directory with categories. Claim your listing for featured placement." />
+  <meta property="og:description" content="Top 10 restaurants + directory with categories. Get featured placement." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://restaurants-barrie.ca/" />
 
@@ -543,7 +543,7 @@
         <div class="logo" aria-hidden="true">🍔</div>
         <div>
           <div>Restaurants Barrie</div>
-          <small>Top 10 + directory • claim + get featured</small>
+          <small>Top 10 + directory • get featured</small>
         </div>
       </a>
 
@@ -564,12 +564,11 @@
         <h1>Where Barrie eats 🍟</h1>
         <p class="sub">
           Find the <b>Top 10</b>, filter by vibe (Sushi, Italian, Breakfast & more),
-          and tap <b>Claim</b> to update your listing + unlock featured placement.
+          and explore the directory to find your next spot.
         </p>
 
         <div class="heroActions">
           <button class="cta" id="jumpDirectory">Browse the directory</button>
-          <button class="ghost" id="openClaimGeneral">Claim a listing</button>
           <a class="ghost" href="#categories" style="text-decoration:none; display:inline-flex; align-items:center;">Browse categories</a>
         </div>
 
@@ -652,7 +651,6 @@
         </p>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
           <button class="btn grad" id="openPricing2">Get featured</button>
-          <button class="btn dash" id="openClaim2">Claim this listing</button>
         </div>
       </div>
     </section>
@@ -678,7 +676,7 @@
           </div>
         </div>
         <div style="margin-top:10px;opacity:.88">
-          Disclaimer: Listings may include sample data until automated import is connected. Restaurants can claim listings to update details.
+          Disclaimer: Listings may include sample data until automated import is connected.
         </div>
       </div>
     </footer>
@@ -691,7 +689,7 @@
         <div>
           <h3 id="modalTitle">Get featured on restaurants-barrie.ca</h3>
           <div style="color:var(--muted);font-size:13px;margin-top:4px;font-weight:700">
-            Claim your listing + optional featured placement. Cancel anytime.
+            Featured placement. Cancel anytime.
           </div>
         </div>
         <button class="close" id="closeModal">Close</button>
@@ -739,12 +737,11 @@
             <option value="Featured Starter - $49/mo">Featured Starter - $49/mo</option>
             <option value="Featured Pro - $79/mo" selected>Featured Pro - $79/mo</option>
             <option value="Homepage Spotlight - $199/7 days">Homepage Spotlight - $199/7 days</option>
-            <option value="Just claiming my listing (no featured plan)">Just claiming my listing (no featured plan)</option>
           </select>
         </div>
 
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
-          <button class="btn primary" id="sendClaim">Submit request</button>
+          <button class="btn primary" id="sendFeatured">Submit request</button>
           <button class="btn dash" id="copyEmailTemplate">Copy outreach email</button>
         </div>
 
@@ -758,7 +755,6 @@
   <!-- Mobile sticky CTA -->
   <div class="mobileCta" id="mobileCta">
     <button class="btn grad" onclick="document.getElementById('openPricing')?.click()">Get Featured</button>
-    <button class="btn dash" onclick="openClaim('')">Claim Listing</button>
   </div>
 
   <script>
@@ -800,39 +796,31 @@
     }
 
     // ✅ Load from API (Worker -> KV)
-    // UPDATED: supports raw array response + builds tags + smarter neighborhood
     async function loadRestaurants(){
       const url = API_URL + (API_URL.includes("?") ? "&" : "?") + "v=" + Date.now();
       const res = await fetch(url, { cache: "no-store" });
       if (!res.ok) throw new Error("API request failed: " + res.status);
 
       const data = await res.json();
-
-      // ✅ Your API returns: [ ... ] (but we also support { restaurants: [...] } just in case)
       const list = Array.isArray(data) ? data : (Array.isArray(data.restaurants) ? data.restaurants : []);
 
       // Kicker update (safe)
       const kicker = document.querySelector(".kicker");
       if (kicker) {
-        // Your array response won't have generatedAt, so fallback to "just now"
         const when = (data && data.generatedAt) ? new Date(data.generatedAt).toLocaleString() : "just now";
         kicker.innerHTML = `<span class="dot"></span> ${esc(CITY)} • updated ${esc(when)}`;
       }
 
-      // Neighborhood helper
       const getArea = (formattedAddress = "") => {
         const parts = String(formattedAddress).split(",").map(s => s.trim()).filter(Boolean);
-        // parts[0] is usually street line
         return parts[0] || "Barrie";
       };
 
-      // Tag builder helper (adds more realistic tags without needing API changes)
       const buildTags = (r) => {
         const tags = [];
         const name = String(r?.name || "").toLowerCase();
         const addr = String(r?.formattedAddress || "").toLowerCase();
         const cat  = String(r?.category || "Restaurant");
-
         tags.push(cat);
 
         if (name.includes("brew") || name.includes("craft") || name.includes("monkey")) tags.push("Craft beer");
@@ -842,13 +830,11 @@
         if (name.includes("indian") || name.includes("amaya")) tags.push("Indian");
         if (name.includes("golf") || addr.includes("golf")) tags.push("Golf club");
         if (name.includes("jack astor")) tags.push("Casual dining");
-
         if (addr.includes("thornton")) tags.push("Near Barrie");
 
         return [...new Set(tags)].slice(0, 6);
       };
 
-      // Map API fields -> your template fields (safe defaults)
       restaurants = list.map((r) => {
         const name = r?.name || "Unnamed";
         const neighborhood = getArea(r?.formattedAddress);
@@ -860,17 +846,18 @@
           neighborhood,
           rating: Number(r?.rating || 0),
           reviews: Number(r?.reviews || 0),
-          price: "", // not in API yet
+          price: "",
           tags: buildTags(r),
           phone: r?.nationalPhoneNumber || "",
           website: r?.websiteUri || "",
-          delivery: { ubereats:"", doordash:"" }, // not in API yet
+          delivery: { ubereats:"", doordash:"" },
           featured: Boolean(r?.featured),
           spotlight: Boolean(r?.spotlight),
         };
       });
     }
 
+    // ✅ UPDATED: removed Claim button from cards
     function makeCard(r){
       const badge = r.spotlight ? `<div class="badge spotlight">Spotlight</div>` :
                     r.featured ? `<div class="badge">Featured</div>` : "";
@@ -880,7 +867,6 @@
       if (r.delivery?.doordash) deliveryLinks.push(`<a class="btn" href="${esc(r.delivery.doordash)}" target="_blank" rel="noopener">DoorDash</a>`);
 
       const callHref = r.phone ? `tel:${String(r.phone).replace(/[^+\d]/g,'')}` : "";
-      const claimBtn = `<button class="btn dash" onclick="openClaim('${esc(r.name)}')">Claim</button>`;
 
       return `
         <article class="card">
@@ -903,7 +889,6 @@
               ${r.website ? `<a class="btn" href="${esc(r.website)}" target="_blank" rel="noopener">Website</a>` : ""}
               ${callHref ? `<a class="btn primary" href="${callHref}">Call</a>` : ""}
               ${deliveryLinks.join("")}
-              ${claimBtn}
             </div>
           </div>
         </article>
@@ -983,7 +968,7 @@
     }
     window.setCategory = setCategory;
 
-    // Modal
+    // Modal (Featured only)
     const modalBack = $("modalBack");
     function openModal(){
       if (!modalBack) return;
@@ -996,17 +981,9 @@
       document.body.style.overflow = "";
       if ($("helperMsg")) $("helperMsg").textContent = "Demo uses a mailto link (no backend). Later: connect to a Cloudflare Worker form endpoint.";
     }
-    function openClaim(restaurantName){
-      if ($("fRestaurant")) $("fRestaurant").value = restaurantName || "";
-      if ($("fPlan")) $("fPlan").value = "Just claiming my listing (no featured plan)";
-      openModal();
-    }
-    window.openClaim = openClaim;
 
     $("openPricing")?.addEventListener("click", ()=>{ if ($("fPlan")) $("fPlan").value = "Featured Pro - $79/mo"; openModal(); });
     $("openPricing2")?.addEventListener("click", ()=>{ if ($("fPlan")) $("fPlan").value = "Featured Pro - $79/mo"; openModal(); });
-    $("openClaim2")?.addEventListener("click", ()=>openClaim(""));
-    $("openClaimGeneral")?.addEventListener("click", ()=>openClaim(""));
 
     $("closeModal")?.addEventListener("click", closeModal);
     modalBack?.addEventListener("click", (e)=>{ if(e.target === modalBack) closeModal(); });
@@ -1022,8 +999,8 @@
 
     $("cat")?.addEventListener("change", applyFilter);
 
-    // Submit (mailto demo)
-    $("sendClaim")?.addEventListener("click", ()=>{
+    // Submit (mailto demo) - Featured only
+    $("sendFeatured")?.addEventListener("click", ()=>{
       const restaurant = ($("fRestaurant")?.value || "").trim();
       const email = ($("fEmail")?.value || "").trim();
       const phone = ($("fPhone")?.value || "").trim();
@@ -1038,7 +1015,7 @@
         return;
       }
 
-      const subject = encodeURIComponent(`[Claim + Featured] ${restaurant} on ${SITE}`);
+      const subject = encodeURIComponent(`[Featured Placement] ${restaurant} on ${SITE}`);
       const body = encodeURIComponent(
 `Restaurant: ${restaurant}
 City: ${CITY}
@@ -1047,9 +1024,8 @@ Contact email: ${email}
 Phone: ${phone || "N/A"}
 
 Requested actions:
-- Claim listing ownership
-- Update business details (hours, links, menu)
-- Activate selected featured placement (if any)
+- Confirm restaurant details
+- Activate selected featured placement
 
 — Sent from ${SITE}`
       );
@@ -1083,7 +1059,7 @@ ${SITE}`;
       }
     });
 
-    // SEO schema
+    // SEO schema (removed “claim” FAQ)
     function injectSchema(top10){
       document.querySelectorAll("script[data-schema]").forEach(n=>n.remove());
 
@@ -1124,7 +1100,6 @@ ${SITE}`;
         "@context":"https://schema.org",
         "@type":"FAQPage",
         "mainEntity":[
-          {"@type":"Question","name":"How do I claim my restaurant listing?","acceptedAnswer":{"@type":"Answer","text":"Tap “Claim” on your restaurant card and submit your contact details. We’ll confirm ownership and update your listing."}},
           {"@type":"Question","name":"What does featured placement include?","acceptedAnswer":{"@type":"Answer","text":"Featured listings appear above standard results in your category and can include a badge, delivery links, and priority positioning."}},
           {"@type":"Question","name":"Can I cancel anytime?","acceptedAnswer":{"@type":"Answer","text":"Yes. Featured plans are month-to-month and can be cancelled anytime."}}
         ]
