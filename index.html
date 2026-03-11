@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Discover the best restaurants in your city. From top-rated fine dining to affordable eats and local favorites, find your next great meal here.">
+    <title>Best Restaurants in Barrie | Curated Local Dining Guide</title>
+
+    <!-- Google Fonts: Inter and Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- SEO Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Lumina Fine Dining",
+            "image": "https://via.placeholder.com/800x600?text=Lumina",
+            "servesCuisine": "Modern American",
+            "priceRange": "$$$$",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "100 Grand Ave",
+              "addressLocality": "Barrie"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.9",
+              "reviewCount": "1240"
+            }
+          }
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="brand">
+                <i class="ph-fill ph-fork-knife"></i>
+                DineLocal
+            </a>
+            <div class="nav-links">
+                <a href="#featured">Featured</a>
+                <a href="#categories">Cuisines</a>
+                <a href="#guides">Local Guides</a>
+                <a href="#get-featured" class="btn-primary btn-small">For Restaurants</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="trust-badge">
+                <i class="ph-fill ph-check-circle"></i> Trusted Local Guide • Updated Monthly
+            </div>
+            <h1>Best Restaurants in Barrie</h1>
+            <p>Discover hand-picked, top-rated dining experiences curated by local food experts.</p>
+
+            <div class="search-container">
+                <div class="search-bar">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Search for restaurant, cuisine, or vibe...">
+                    <button class="btn-primary">Search</button>
+                </div>
+                <div class="quick-filters">
+                    <button class="filter-tag">Italian</button>
+                    <button class="filter-tag">Sushi</button>
+                    <button class="filter-tag">Pizza</button>
+                    <button class="filter-tag">Burgers</button>
+                    <button class="filter-tag">Vegan</button>
+                </div>
+            </div>
+        </div>
+        <div class="hero-overlay"></div>
+    </header>
+
+    <!-- Top 3 Featured Restaurants -->
+    <section id="featured" class="section-container">
+        <div class="section-header">
+            <h2>Featured Restaurants in Barrie</h2>
+            <p class="subtitle">Our highest-rated picks for this month.</p>
+            <div class="sort-filter-bar">
+                <select class="dropdown-filter">
+                    <option value="">Sort by: Popularity</option>
+                    <option value="rating">Rating (High to Low)</option>
+                    <option value="new">New Openings</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="grid-3" id="restaurantGrid">
+            <!-- Featured Cards will be rendered here dynamically via app.js -->
+        </div>
+    </section>
+
+    <!-- All Restaurants Grid -->
+    <section id="all-restaurants" class="section-container">
+        <div class="section-header">
+            <h2>All Restaurants</h2>
+            <p class="subtitle">Browse the complete directory of local dining options.</p>
+        </div>
+        <div class="list-view" id="allRestaurantGrid">
+            <!-- All Restaurant Cards will be rendered here dynamically via app.js -->
+        </div>
+        <div class="load-more-container d-none" id="loadMoreContainer">
+            <button class="btn-outline" id="loadMoreBtn">Load More Restaurants <i
+                    class="ph-bold ph-caret-down"></i></button>
+        </div>
+    </section>
+
+    <!-- Category Grid -->
+    <section id="categories" class="section-container bg-light">
+        <div class="section-header center">
+            <h2>Explore by Cuisine</h2>
+            <p class="subtitle">Find exactly what you are craving.</p>
+        </div>
+        <div class="category-grid">
+            <a href="#" class="category-card">
+                <i class="ph-fill ph-pizza"></i>
+                <span>Pizza</span>
+            </a>
+            <a href="#" class="category-card">
+                <i class="ph-fill ph-bowl-food"></i>
+                <span>Asian</span>
+            </a>
+            <a href="#" class="category-card">
+                <i class="ph-fill ph-hamburger"></i>
+                <span>Burgers</span>
+            </a>
+            <a href="#" class="category-card">
+                <i class="ph-fill ph-coffee"></i>
+                <span>Cafes</span>
+            </a>
+            <a href="#" class="category-card">
+                <i class="ph-fill ph-martini"></i>
+                <span>Bars</span>
+            </a>
+            <a href="#" class="category-card">
+                <i class="ph-fill ph-plant"></i>
+                <span>Vegan</span>
+            </a>
+            <a href="#" class="category-card">
+                <i class="ph-fill ph-fish-simple"></i>
+                <span>Seafood</span>
+            </a>
+            <a href="#" class="category-card">
+                <i class="ph-fill ph-cooking-pot"></i>
+                <span>Buffet</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Local Food Guides (SEO Blogs) -->
+    <section id="guides" class="section-container">
+        <div class="section-header">
+            <h2>Local Food Guides</h2>
+            <p class="subtitle">Curated lists to help you decide.</p>
+        </div>
+        <div class="grid-2">
+            <article class="guide-card">
+                <img src="images/brunch_guide_1772763331998.png" alt="Brunch Guide" class="lazy-image">
+                <div class="guide-content">
+                    <h3>Best Brunch in Barrie</h3>
+                    <p>From bottomless mimosas to artisanal avocado toast, discover the top weekend spots.</p>
+                    <a href="#" class="read-more">Read Guide <i class="ph-bold ph-arrow-right"></i></a>
+                </div>
+            </article>
+            <article class="guide-card">
+                <img src="images/cheap_eats_1772763345756.png" alt="Cheap Eats Guide" class="lazy-image">
+                <div class="guide-content">
+                    <h3>Affordable Restaurants in Barrie</h3>
+                    <p>Incredible food that won't break the bank. Our favorite cheap eats under $15.</p>
+                    <a href="#" class="read-more">Read Guide <i class="ph-bold ph-arrow-right"></i></a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Interactive Map Section -->
+    <section class="map-section">
+        <div class="map-container">
+            <!-- Map Placeholder -->
+            <div class="map-placeholder">
+                <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                    alt="Map View" class="lazy-image">
+                <button class="btn-primary map-btn"><i class="ph ph-map-trifold"></i> Open Interactive Map</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Monetization / Get Featured -->
+    <section id="get-featured" class="monetization-section">
+        <div class="monetization-content">
+            <div class="monetization-text">
+                <h2>Restaurant Owner?</h2>
+                <p>Reach thousands of hungry locals searching for dining options every day. Upgrade to a Featured
+                    Listing.</p>
+                <ul class="benefits-list">
+                    <li><i class="ph-fill ph-check-circle"></i> Guaranteed top-3 placement</li>
+                    <li><i class="ph-fill ph-check-circle"></i> "Editor's Pick" gold badge</li>
+                    <li><i class="ph-fill ph-check-circle"></i> Direct menu & reservation links</li>
+                    <li><i class="ph-fill ph-check-circle"></i> priority SEO exposure</li>
+                </ul>
+                <div class="pricing-tier">
+                    <span class="price-val">$49</span><span class="period">/month</span>
+                </div>
+                <button class="btn-gold">Get Featured Today</button>
+            </div>
+            <div class="monetization-image">
+                <div class="mockup-card">
+                    <!-- Preview of featured card -->
+                    <div class="mockup-badge">Featured Example</div>
+                    <img src="images/lumina_dining_1772763218089.png" alt="Featured Listing Example">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="#" class="brand">
+                    <i class="ph-fill ph-fork-knife"></i>
+                    DineLocal
+                </a>
+                <p>Your ultimate guide to the best restaurants, cafes, and bars.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Explore</h4>
+                <a href="#">New Openings</a>
+                <a href="#">Top Rated</a>
+                <a href="#">Trending</a>
+            </div>
+            <div class="footer-links">
+                <h4>For Business</h4>
+                <a href="#">Add a Restaurant</a>
+                <a href="#">Get Featured</a>
+                <a href="#">Claim Listing</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 DineLocal Directory. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
